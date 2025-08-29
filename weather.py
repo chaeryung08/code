@@ -1,39 +1,59 @@
-import requests
-import datetime
+import os, requests, json, pathlib, datetime
 
-API_KEY = "4e66bf43d5a7b96a73ce3d7510fdb0f17c6ea622e6dad03ff5d839f22c0ab173"
-URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"
+# 좌표 (창원: nx=90, ny=77)
+NX, NY = 90, 77
+OUT_PATH = pathlib.Path("data/weather.json")
+OUT_PATH.parent.mkdir(exist_ok=True)
 
-today = datetime.datetime.now().strftime("%Y%m%d")
-time = (datetime.datetime.now() - datetime.timedelta(minutes=30)).strftime("%H00")
+# 현재 시간 → base_date, base_time 계산
+kst = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
+hour = kst.hour
+minute = kst.minute
+if minute < 45:
+    hour -= 1
+    if hour < 0:
+        hour = 23
+        kst -= datetime.timedelta(days=1)
+base_date = kst.strftime("%Y%m%d")
+base_time = f"{hour:02d}30"
 
+SERVICE_KEY = os.environ["KMA_SERVICE_KEY"]
+
+url = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst"
 params = {
-    "serviceKey": API_KEY,
-    "numOfRows": "10",
-    "pageNo": "1",
-    "base_date": today,
-    "base_time": time,
-    "nx": "90",   # 창원 격자 X
-    "ny": "77",   # 창원 격자 Y
-    "dataType": "JSON"
+    "serviceKey": SERVICE_KEY,
+    "numOfRows": 1000,
+    "pageNo": 1,
+    "dataType": "JSON",
+    "base_date": base_date,
+    "base_time": base_time,
+    "nx": NX,
+    "ny": NY
 }
 
-def get_weather():
-    res = requests.get(URL, params=params)
-    data = res.json()
+res = requests.get(url, params=params)
+data = res.json()
 
-    items = data["response"]["body"]["items"]["item"]
-    weather_info = {}
-    for item in items:
-        if item["category"] == "T1H":  # 기온
-            weather_info["temp"] = item["obsrValue"]
-        elif item["category"] == "REH":  # 습도
-            weather_info["humidity"] = item["obsrValue"]
-        elif item["category"] == "RN1":  # 강수량
-            weather_info["rain"] = item["obsrValue"]
+items = data["response"]["body"]["items"]["item"]
 
-    return weather_info
+# 필요한 값 정리
+want = {"T1H": "temp", "REH": "humidity", "WSD": "wind", "SKY": "sky", "PTY": "pty"}
+sky_map = {"1": "맑음", "3": "구름많음", "4": "흐림"}
+pty_map = {"0": "없음", "1": "비", "2": "비/눈", "3": "눈"}
 
-if __name__ == "__main__":
-    print(get_weather())
+forecast = {}
+for it in items:
+    cat = it["category"]
+    if cat in want:
+        forecast[want[cat]] = it["fcstValue"]
 
+forecast["sky_text"] = sky_map.get(forecast.get("sky", ""), "")
+forecast["pty_text"] = pty_map.get(forecast.get("pty", ""), "")
+
+result = {
+    "base": {"date": base_date, "time": base_time},
+    "values": forecast
+}
+
+OUT_PATH.write_text(json.dumps(result, ensure_ascii=False, indent=2))
+print("Saved weather.json ✅")
