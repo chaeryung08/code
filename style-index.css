@@ -19,7 +19,14 @@ button {
   color: black;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   transition: all 0.2s ease-in-out;
-  
+}
+
+.top-note{
+  font-size:14px;
+  color:#414241;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align:center;
 }
 
 button:hover {
