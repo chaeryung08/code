@@ -1,5 +1,10 @@
 import os, requests, json, pathlib, datetime
 
+print("응답 상태코드:", res.status_code)
+print("응답 내용:", res.text[:500])  # 앞부분만 찍기
+data = res.json()
+
+
 # 좌표 (창원: nx=90, ny=77)
 NX, NY = 90, 77
 OUT_PATH = pathlib.Path("data/weather.json")
