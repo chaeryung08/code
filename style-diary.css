@@ -1,4 +1,35 @@
+#auth-section {
+  position: absoulute;
+  top: 20px;
+  right:20px;
+  background: white;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
+#auth-section h2 {
+  font-size: 14px;
+  margin: 0 0 8px 0;
+}
+
+#auth-section input{
+  display: block;
+  margin: 5px 0;
+  width:120px;
+  font-size:12px;
+  padding:3px;
+}
+
+#auth-section button {
+  margin: 3px 0;
+  padding:4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
 body {
   font-family: Arial, sans-serif;
