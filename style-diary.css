@@ -23,6 +23,28 @@
   transition: 0.2s;
 }
 
+#auth-section input:focus {
+  border-color: #66aaff;
+  box-shadow: 0 0 5px rgba(102,170,255,0.5);
+}
+
+#auth-section button {
+  margin-top: 5px;
+  margin-right: 5px;
+  padding:6px 12px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: point;
+  background: #66aaff;
+  color:white;
+  transition: background 0.2s;
+}
+
+#auth-section button:hover {
+  background:#5599dd;
+}
+
 #auth-section h2 {
   font-size: 14px;
   margin: 0 0 8px 0;
