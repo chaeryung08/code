@@ -1,1 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>옵션 1 - 방명록</title>
+</head>
+<body>
+  <h1>옵션 1 페이지</h1>
 
+  <!-- 로그인 & 회원가입 폼 -->
+  <div id="auth-section">
+    <h2>로그인 / 회원가입</h2>
+    <input type="email" id="email" placeholder="이메일">
+    <input type="password" id="password" placeholder="비밀번호">
+    <button id="signup-btn">회원가입</button>
+    <button id="login-btn">로그인</button>
+    <button id="logout-btn" style="display:none;">로그아웃</button>
+  </div>
+
+  <!-- 방명록 -->
+  <h2>방명록</h2>
+  <form id="guestbook-form" style="display:none;">
+    <input type="text" id="message" placeholder="메시지" required>
+    <button type="submit">남기기</button>
+  </form>
+  <ul id="guestbook-list"></ul>
+
+  <a href="index.html">← 뒤로가기</a>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      getDocs 
+    } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+
+    // 🔹 네 Firebase 프로젝트 설정 붙여넣기
+    const firebaseConfig = {
+      apiKey: "네_API_KEY",
+      authDomain: "네_프로젝트.firebaseapp.com",
+      projectId: "네_프로젝트_ID",
+      storageBucket: "네_프로젝트.appspot.com",
+      messagingSenderId: "네_보낸사람_ID",
+      appId: "네_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const signupBtn = document.getElementById("signup-btn");
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const form = document.getElementById("guestbook-form");
+    const list = document.getElementById("guestbook-list");
+
+    // 회원가입
+    signupBtn.addEventListener("click", async () => {
+      try {
+        await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+        alert("회원가입 성공!");
+      } catch (e) {
+        alert("회원가입 실패: " + e.message);
+      }
+    });
+
+    // 로그인
+    loginBtn.addEventListener("click", async () => {
+      try {
+        await signI
