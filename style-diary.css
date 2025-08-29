@@ -2,12 +2,25 @@
   position: absoulute;
   top: 20px;
   right:20px;
+  display: inline-block;
   background: white;
   padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 12px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#auth-section input {
+  display: block;
+  width:180px;
+  padding: 8px 10px;
+  margin:6px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
 }
 
 #auth-section h2 {
