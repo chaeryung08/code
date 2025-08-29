@@ -1,6 +1,6 @@
 
-const API_KEY = "회원님_API_KEY";
-const city = "Seoul";
+const API_KEY = "4e66bf43d5a7b96a73ce3d7510fdb0f17c6ea622e6dad03ff5d839f22c0ab173";
+const city = "changwon";
 
 fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
   .then(res => res.json())
