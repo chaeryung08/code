@@ -1,0 +1,27 @@
+name: Update Weather
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # 매시간 실행
+  workflow_dispatch:       # 수동 실행 가능
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install requests
+      - name: Run update script
+        run: python update_readme.py
+      - name: Commit changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add README.md
+          git commit -m "Update weather"
+          git push
