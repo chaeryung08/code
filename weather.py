@@ -32,7 +32,7 @@ params = {
 }
 
 # ✅ API 요청
-res = requests.get(url, params=params)
+res = requests.get(url, params=params, verify=False)
 
 print("응답 상태코드:", res.status_code)
 print("응답 내용(앞부분):", res.text[:300])
