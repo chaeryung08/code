@@ -1,27 +1,28 @@
-name: Update Weather
+name: Fetch KMA Weather
 
 on:
   schedule:
-    - cron: "0 * * * *"   # 매시간 실행
-  workflow_dispatch:       # 수동 실행 가능
+    - cron: "0 * * * *"  # 매 정시 실행
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
-      - name: Install dependencies
-        run: pip install requests
-      - name: Run update script
-        run: python update_readme.py
-      - name: Commit changes
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add README.md
-          git commit -m "Update weather"
-          git push
+          python-version: "3.x"
+
+      - run: pip install requests
+
+      - run: python weather.py
+        env:
+          KMA_SERVICE_KEY: ${{ secrets.KMA_SERVICE_KEY }}
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          add: "data/weather.json"
+          message: "Update weather data"
+          default_author: github_actions
