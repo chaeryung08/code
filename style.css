@@ -2,8 +2,8 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin-top: 100px;
-   background: linear-gradient(135deg, #e0f7fa, #80deea)
-  color: #333
+   background: #ffffdd;
+  color: #333;
 }
 
 button {
