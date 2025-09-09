@@ -98,5 +98,22 @@
     </form>
     <ul id="guestbook-list"></ul>
   </div>
+      <script>
+  const envelope = document.getElementById("envelope");
+  const flap = envelope.querySelector(".flap");
+  const letter = envelope.querySelector(".letter");
+
+  let opened = false;
+
+  envelope.addEventListener("click", () => {
+    if (!opened) {
+      flap.style.transform = "rotateX(-180deg)"; // flap 열림
+      letter.style.opacity = "1";
+      letter.style.transform = "translateX(-50%) translateY(0)";
+      opened = true;
+    }
+  });
+</script>
+
 </div>
 
