@@ -1,66 +1,35 @@
-import http.client, ssl, urllib.parse, os, json, pathlib, datetime
+import requests
+import os
 
-# 좌표 (창원: nx=90, ny=77)
-NX, NY = 90, 77
-OUT_PATH = pathlib.Path("data/weather.json")
-OUT_PATH.parent.mkdir(exist_ok=True)
+API_KEY = os.getenv("API_KEY")
+CITY = "Changwon"  # 원하는 도시 (창원으로 설정)
 
-# 현재 시간 계산
-kst = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
-hour = kst.hour
-minute = kst.minute
-if minute < 45:
-    hour -= 1
-    if hour < 0:
-        hour = 23
-        kst -= datetime.timedelta(days=1)
-base_date = kst.strftime("%Y%m%d")
-base_time = f"{hour:02d}30"
+if not API_KEY:
+    raise ValueError("❌ API_KEY가 불러와지지 않았습니다. GitHub Secrets에 WEATHER_API_KEY 등록했는지 확인하세요!")
 
-SERVICE_KEY = os.environ["KMA_SERVICE_KEY"]
+url = f"http://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={API_KEY}&units=metric&lang=kr"
+res = requests.get(url).json()
 
-# SSL 검증 비활성화
-context = ssl._create_unverified_context()
-conn = http.client.HTTPSConnection("apis.data.go.kr", context=context)
+# 디버깅용 출력
+print("✅ API 호출 결과:", res)
 
-path = "/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst"
-query = urllib.parse.urlencode({
-    "serviceKey": SERVICE_KEY,
-    "numOfRows": 1000,
-    "pageNo": 1,
-    "dataType": "JSON",
-    "base_date": base_date,
-    "base_time": base_time,
-    "nx": NX,
-    "ny": NY
-})
+if res.get("cod") != 200:
+    raise ValueError(f"❌ 날씨 정보를 불러올 수 없음: {res}")
 
-conn.request("GET", f"{path}?{query}")
-res = conn.getresponse()
-raw = res.read().decode("utf-8")
+weather = res["weather"][0]["description"]
+temp = res["main"]["temp"]
 
-data = json.loads(raw)
-items = data["response"]["body"]["items"]["item"]
+# README.md 업데이트
+with open("README.md", "r", encoding="utf-8") as f:
+    content = f.readlines()
 
-# 필요한 값 정리
-want = {"T1H": "temp", "REH": "humidity", "WSD": "wind", "SKY": "sky", "PTY": "pty"}
-sky_map = {"1": "맑음", "3": "구름많음", "4": "흐림"}
-pty_map = {"0": "없음", "1": "비", "2": "비/눈", "3": "눈"}
-
-forecast = {}
-for it in items:
-    cat = it["category"]
-    if cat in want:
-        forecast[want[cat]] = it["fcstValue"]
-
-forecast["sky_text"] = sky_map.get(forecast.get("sky", ""), "")
-forecast["pty_text"] = pty_map.get(forecast.get("pty", ""), "")
-
-result = {
-    "base": {"date": base_date, "time": base_time},
-    "values": forecast
-}
-
-OUT_PATH.write_text(json.dumps(result, ensure_ascii=False, indent=2))
-print("Saved weather.json ✅")
-
+with open("README.md", "w", encoding="utf-8") as f:
+    updated = False
+    for line in content:
+        if line.startswith("🌤️ 현재 날씨:"):
+            f.write(f"🌤️ 현재 날씨: {weather}, {temp}°C\n")
+            updated = True
+        else:
+            f.write(line)
+    if not updated:
+        f.write(f"\n🌤️ 현재 날씨: {weather}, {temp}°C\n")
