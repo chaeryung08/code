@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <title>방명록</title>
   <link rel="stylesheet" href="style-diary.css">
-  
 </head>
-  
+
 <body>
   <h1>방명록</h1>
 
@@ -14,13 +13,20 @@
   <div id="auth-section">
     <h2>로그인 / 회원가입</h2>
     <input type="email" id="email" placeholder="이메일">
-    <input type="password" id="password" placeholder="비밀번호">
+    <input type="password" id="password" placeholder="비밀번호 (6자 이상)">
     <button id="signup-btn">회원가입</button>
     <button id="login-btn">로그인</button>
     <button id="logout-btn" style="display:none;">로그아웃</button>
   </div>
 
-  
+  <!-- 방명록 폼 (로그인 시에만 보임) -->
+  <form id="guestbook-form" style="display:none; margin-top: 20px; text-align: center;">
+    <input type="text" id="guestbook-message" placeholder="메시지를 입력하세요" style="width: 300px; padding: 8px;">
+    <button type="submit">등록</button>
+  </form>
+
+  <!-- 방명록 목록 -->
+  <ul id="guestbook-list" style="margin-top: 20px; text-align: center;"></ul>
 
   <!-- 🔹 Firebase 관련 script -->
   <script type="module">
@@ -39,12 +45,11 @@
       getDocs 
     } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 
-    // 🔹 Firebase 프로젝트 설정
     const firebaseConfig = {
       apiKey: "AIzaSyDre99Ybv_5CizierdhHWOLYw3fFRUgu_8",
       authDomain: "dddde-fa572.firebaseapp.com",
       projectId: "dddde-fa572",
-      storageBucket: "dddde-fa572.firebasestorage.app",
+      storageBucket: "dddde-fa572.appspot.com",
       messagingSenderId: "246699009653",
       appId: "1:246699009653:web:cbb0c5f8168f570bc1ba3c"
     };
@@ -60,10 +65,16 @@
     const logoutBtn = document.getElementById("logout-btn");
     const form = document.getElementById("guestbook-form");
     const list = document.getElementById("guestbook-list");
+    const messageInput = document.getElementById("guestbook-message");
 
     // 회원가입
-    signupBtn.addEventListener("click", async () => {
+    signupBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
       try {
+        if (passwordInput.value.length < 6) {
+          alert("비밀번호는 6자 이상이어야 합니다.");
+          return;
+        }
         await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
         alert("회원가입 성공!");
       } catch (e) {
@@ -72,7 +83,8 @@
     });
 
     // 로그인
-    loginBtn.addEventListener("click", async () => {
+    loginBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
       try {
         await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
         alert("로그인 성공!");
@@ -91,20 +103,55 @@
       }
     });
 
-    // 로그인 상태 변경 감지
-    onAuthStateChanged(auth, (user) => {
+    // 로그인 상태 감지
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        form.style.display = "block";
+        if (form) form.style.display = "block";
         logoutBtn.style.display = "inline-block";
         loginBtn.style.display = "none";
         signupBtn.style.display = "none";
+        loadGuestbook();
       } else {
-        form.style.display = "none";
+        if (form) form.style.display = "none";
         logoutBtn.style.display = "none";
         loginBtn.style.display = "inline-block";
         signupBtn.style.display = "inline-block";
       }
     });
+
+    // 방명록 작성
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const message = messageInput.value.trim();
+      if (!message) {
+        alert("메시지를 입력하세요.");
+        return;
+      }
+      try {
+        await addDoc(collection(db, "guestbook"), {
+          message,
+          createdAt: new Date(),
+          user: auth.currentUser.email
+        });
+        messageInput.value = "";
+        loadGuestbook();
+      } catch (e) {
+        alert("등록 실패: " + e.message);
+      }
+    });
+
+    // 방명록 불러오기
+    async function loadGuestbook() {
+      list.innerHTML = "";
+      const querySnapshot = await getDocs(collection(db, "guestbook"));
+      querySnapshot.forEach((doc) => {
+        const li = document.createElement("li");
+        const data = doc.data();
+        li.textContent = `${data.user}: ${data.message}`;
+        list.appendChild(li);
+      });
+    }
+  </script>
 
 </body>
 </html>
