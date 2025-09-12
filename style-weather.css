@@ -1,23 +1,20 @@
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(180deg, #a1c4fd, #c2e9fb);
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+html {
+  height: 100%;
 }
 
 body {
-  min-height:100%
+  min-height: 100%;
   font-family: Arial, sans-serif;
-  margin:0px;
-  background-image: linear-gradient(to bottom, #f69d3c, #3f87a6);
+  margin: 0;
+  background: linear-gradient(180deg, #a1c4fd, #c2e9fb);
   background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-size : cover;
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
- 
+
 .container {
   background: white;
   margin-top: 50px;
@@ -29,34 +26,8 @@ body {
 }
 
 h1 {
-  text-align: center;
-  margin-bottom: 20px;
   color: #333;
-}
+  text-align:
 
-#status {
-  text-align: center;
-  margin-bottom: 15px;
-  color: #666;
-}
-
-#weather-card h2 {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 1.1em;
-}
-
-small {
-  display: block;
-  text-align: right;
-  margin-top: 10px;
-  color: #999;
   font-size: 0.8em;
 }
