@@ -22,6 +22,3 @@ function loadWeather() {
     });
 }
 
-// 페이지 로딩 시 바로 실행
-loadWeather();
-
