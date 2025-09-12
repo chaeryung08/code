@@ -1,157 +1,259 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>방명록</title>
-  <link rel="stylesheet" href="style-diary.css">
+  <meta charset="UTF-8" />
+  <title>방명록 (로컬 저장소)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px;
+      background: linear-gradient(to bottom, #ddffdd, #ddeeff);
+      text-align: center;
+    }
+
+    #auth-section {
+      background: rgba(255,255,255,0.9);
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      width: 220px;
+      margin: 0 auto 20px auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    #auth-section input, #auth-section button {
+      width: 90%;
+      padding: 6px;
+      margin: 8px 0;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    #auth-section button {
+      background: #66aaff;
+      color: white;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+    }
+    #auth-section button:hover {
+      background: #5599dd;
+    }
+
+    #logout-btn {
+      display: none;
+      margin-top: 10px;
+      background: #ff6666;
+    }
+    #logout-btn:hover {
+      background: #dd4444;
+    }
+
+    #guestbook-form {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #guestbook-form input {
+      width: 300px;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    #guestbook-form button {
+      padding: 10px 15px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      background: #66aaff;
+      color: white;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: background 0.2s;
+    }
+
+    #guestbook-form button:hover {
+      background: #5599dd;
+    }
+
+    #guestbook-list {
+      margin-top: 30px;
+      list-style: none;
+      padding: 0;
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+
+    #guestbook-list li {
+      background: #e6f2ff;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+  </style>
 </head>
 
 <body>
   <h1>방명록</h1>
 
-  <!-- 로그인 & 회원가입 폼 -->
   <div id="auth-section">
-    <h2>로그인 / 회원가입</h2>
-    <input type="email" id="email" placeholder="이메일">
-    <input type="password" id="password" placeholder="비밀번호 (6자 이상)">
+    <input type="email" id="email" placeholder="이메일 입력" />
+    <input type="password" id="password" placeholder="비밀번호 입력 (6자 이상)" />
     <button id="signup-btn">회원가입</button>
     <button id="login-btn">로그인</button>
-    <button id="logout-btn" style="display:none;">로그아웃</button>
+    <button id="logout-btn">로그아웃</button>
   </div>
 
-  <!-- 방명록 폼 (로그인 시에만 보임) -->
-  <form id="guestbook-form" style="display:none; margin-top: 20px; text-align: center;">
-    <input type="text" id="guestbook-message" placeholder="메시지를 입력하세요" style="width: 300px; padding: 8px;">
+  <form id="guestbook-form">
+    <input type="text" id="guestbook-message" placeholder="메시지를 입력하세요" />
     <button type="submit">등록</button>
   </form>
 
-  <!-- 방명록 목록 -->
-  <ul id="guestbook-list" style="margin-top: 20px; text-align: center;"></ul>
+  <ul id="guestbook-list"></ul>
 
-  <!-- 🔹 Firebase 관련 script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
-    import { 
-      getAuth, 
-      createUserWithEmailAndPassword, 
-      signInWithEmailAndPassword, 
-      signOut, 
-      onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
-    import { 
-      getFirestore, 
-      collection, 
-      addDoc, 
-      getDocs 
-    } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDre99Ybv_5CizierdhHWOLYw3fFRUgu_8",
-      authDomain: "dddde-fa572.firebaseapp.com",
-      projectId: "dddde-fa572",
-      storageBucket: "dddde-fa572.appspot.com",
-      messagingSenderId: "246699009653",
-      appId: "1:246699009653:web:cbb0c5f8168f570bc1ba3c"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
+  <script>
+    // 요소들 가져오기
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const signupBtn = document.getElementById("signup-btn");
     const loginBtn = document.getElementById("login-btn");
     const logoutBtn = document.getElementById("logout-btn");
+    const authSection = document.getElementById("auth-section");
+
     const form = document.getElementById("guestbook-form");
-    const list = document.getElementById("guestbook-list");
     const messageInput = document.getElementById("guestbook-message");
+    const list = document.getElementById("guestbook-list");
 
-    // 회원가입
-    signupBtn.addEventListener("click", async (e) => {
+    // 현재 로그인된 유저 이메일
+    let currentUser = null;
+
+    // 로컬스토리지에서 회원 정보 읽기 (객체: { email: {password: "xxx"} })
+    function getUsers() {
+      return JSON.parse(localStorage.getItem("users") || "{}");
+    }
+
+    // 회원가입 이벤트
+    signupBtn.addEventListener("click", () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        alert("이메일과 비밀번호를 입력하세요.");
+        return;
+      }
+      if (password.length < 6) {
+        alert("비밀번호는 6자 이상이어야 합니다.");
+        return;
+      }
+
+      const users = getUsers();
+      if (users[email]) {
+        alert("이미 가입된 이메일입니다.");
+        return;
+      }
+
+      users[email] = { password };
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("회원가입 성공! 로그인 해주세요.");
+      emailInput.value = "";
+      passwordInput.value = "";
+    });
+
+    // 로그인 이벤트
+    loginBtn.addEventListener("click", () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        alert("이메일과 비밀번호를 입력하세요.");
+        return;
+      }
+
+      const users = getUsers();
+      if (!users[email] || users[email].password !== password) {
+        alert("이메일 또는 비밀번호가 틀렸습니다.");
+        return;
+      }
+
+      currentUser = email;
+      alert("로그인 성공!");
+      emailInput.value = "";
+      passwordInput.value = "";
+      updateUIAfterLogin();
+      loadGuestbook();
+    });
+
+    // 로그아웃 이벤트
+    logoutBtn.addEventListener("click", () => {
+      currentUser = null;
+      updateUIAfterLogout();
+    });
+
+    // 로그인 상태 UI 업데이트
+    function updateUIAfterLogin() {
+      authSection.style.display = "none";
+      form.style.display = "block";
+      logoutBtn.style.display = "inline-block";
+      list.style.display = "block";
+    }
+
+    function updateUIAfterLogout() {
+      authSection.style.display = "block";
+      form.style.display = "none";
+      logoutBtn.style.display = "none";
+      list.style.display = "none";
+      clearGuestbook();
+    }
+
+    // 방명록 데이터 불러오기
+    function loadGuestbook() {
+      list.innerHTML = "";
+      const entries = JSON.parse(localStorage.getItem("guestbook")) || [];
+      entries.forEach(({ user, message }) => {
+        const li = document.createElement("li");
+        li.textContent = `${user}: ${message}`;
+        list.appendChild(li);
+      });
+    }
+
+    // 방명록 데이터 저장
+    function saveGuestbookEntry(user, message) {
+      const entries = JSON.parse(localStorage.getItem("guestbook")) || [];
+      entries.push({ user, message });
+      localStorage.setItem("guestbook", JSON.stringify(entries));
+    }
+
+    // 방명록 비우기 (로그아웃시)
+    function clearGuestbook() {
+      list.innerHTML = "";
+    }
+
+    // 방명록 작성 이벤트
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
-      try {
-        if (passwordInput.value.length < 6) {
-          alert("비밀번호는 6자 이상이어야 합니다.");
-          return;
-        }
-        await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-        alert("회원가입 성공!");
-      } catch (e) {
-        alert("회원가입 실패: " + e.message);
-      }
-    });
 
-    // 로그인
-    loginBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      try {
-        await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-        alert("로그인 성공!");
-      } catch (e) {
-        alert("로그인 실패: " + e.message);
-      }
-    });
-
-    // 로그아웃
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-        alert("로그아웃 성공!");
-      } catch (e) {
-        alert("로그아웃 실패: " + e.message);
-      }
-    });
-
-    // 로그인 상태 감지
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        if (form) form.style.display = "block";
-        logoutBtn.style.display = "inline-block";
-        loginBtn.style.display = "none";
-        signupBtn.style.display = "none";
-        loadGuestbook();
-      } else {
-        if (form) form.style.display = "none";
-        logoutBtn.style.display = "none";
-        loginBtn.style.display = "inline-block";
-        signupBtn.style.display = "inline-block";
-      }
-    });
-
-    // 방명록 작성
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
       const message = messageInput.value.trim();
       if (!message) {
         alert("메시지를 입력하세요.");
         return;
       }
-      try {
-        await addDoc(collection(db, "guestbook"), {
-          message,
-          createdAt: new Date(),
-          user: auth.currentUser.email
-        });
-        messageInput.value = "";
-        loadGuestbook();
-      } catch (e) {
-        alert("등록 실패: " + e.message);
-      }
+      saveGuestbookEntry(currentUser, message);
+      messageInput.value = "";
+      loadGuestbook();
     });
 
-    // 방명록 불러오기
-    async function loadGuestbook() {
-      list.innerHTML = "";
-      const querySnapshot = await getDocs(collection(db, "guestbook"));
-      querySnapshot.forEach((doc) => {
-        const li = document.createElement("li");
-        const data = doc.data();
-        li.textContent = `${data.user}: ${data.message}`;
-        list.appendChild(li);
-      });
-    }
+    // 페이지 로드 시 초기화
+    window.onload = () => {
+      updateUIAfterLogout(); // 초기엔 로그아웃 상태 UI로
+    };
   </script>
-
 </body>
 </html>
