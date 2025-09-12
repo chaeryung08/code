@@ -1,28 +1,18 @@
-
 <!DOCTYPE html>
-<html lang=" Arial, sans-serif;">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>기상청 날씨 앱</title>
-  <link rel="stylesheet" href="style-weather.css" />
-</head>
-<body>
-  <main class="container">
-    <h1>🌤 기상청 날씨</h1>
-    <p id="status">데이터 불러오는 중...</p>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>창원 날씨</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🌤️ 창원 날씨</h1>
+      <div id="weatherResult">날씨 정보를 불러오는 중...</div>
+    </div>
 
-    <section id="weather-card" hidden>
-      <h2>서울 중구</h2>
-      <div class="row"><span>기온</span><span id="temp"></span>°C</div>
-      <div class="row"><span>습도</span><span id="humidity"></span>%</div>
-      <div class="row"><span>풍속</span><span id="wind"></span> m/s</div>
-      <div class="row"><span>하늘상태</span><span id="sky"></span></div>
-      <div class="row"><span>강수형태</span><span id="pty"></span></div>
-      <small id="base"></small>
-    </section>
-  </main>
-
-  <script src="script.js" defer></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
+
