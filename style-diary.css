@@ -58,13 +58,18 @@
 /* ------------------------------ */
 /* 전체 body & 제목 */
 /* ------------------------------ */
+html{
+  height:100%;
+}
+
 body {
+  min-height:100%
   font-family: Arial, sans-serif;
-  margin-top: 50px;
+  margin:0px;
   background-image: linear-gradient(to bottom, #ddffdd, #ddeeff);
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size : 100% 100%;
+  background-attachment: scroll;
+  background-size : cover;
 }
 
 h1 {
