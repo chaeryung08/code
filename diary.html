@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>방명록 (로컬 저장소)</title>
+  <title>공유 방명록</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -101,6 +101,11 @@
       word-break: break-word;
     }
   </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
 </head>
 
 <body>
@@ -122,91 +127,36 @@
   <ul id="guestbook-list"></ul>
 
   <script>
-    // 요소들 가져오기
+    // 요소
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const signupBtn = document.getElementById("signup-btn");
     const loginBtn = document.getElementById("login-btn");
     const logoutBtn = document.getElementById("logout-btn");
     const authSection = document.getElementById("auth-section");
-
     const form = document.getElementById("guestbook-form");
     const messageInput = document.getElementById("guestbook-message");
     const list = document.getElementById("guestbook-list");
 
-    // 현재 로그인된 유저 아이디
     let currentUser = null;
 
-    // 로컬스토리지에서 회원 정보 읽기 (객체: { email: {password: "xxx"} })
-    function getUsers() {
-      return JSON.parse(localStorage.getItem("users") || "{}");
-    }
+    // Firebase 초기화 (본인 프로젝트 정보 입력)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    // 회원가입 이벤트
-    signupBtn.addEventListener("click", () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      if (!email || !password) {
-        alert("아이디와 비밀번호를 입력하세요.");
-        return;
-      }
-      if (password.length < 6) {
-        alert("비밀번호는 6자 이상이어야 합니다.");
-        return;
-      }
-
-      const users = getUsers();
-      if (users[email]) {
-        alert("이미 가입된 아이디입니다.");
-        return;
-      }
-
-      users[email] = { password };
-      localStorage.setItem("users", JSON.stringify(users));
-      alert("회원가입 성공! 로그인 해주세요.");
-      emailInput.value = "";
-      passwordInput.value = "";
-    });
-
-    // 로그인 이벤트
-    loginBtn.addEventListener("click", () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      if (!email || !password) {
-        alert("아이디와 비밀번호를 입력하세요.");
-        return;
-      }
-
-      const users = getUsers();
-      if (!users[email] || users[email].password !== password) {
-        alert("아이디 또는 비밀번호가 틀렸습니다.");
-        return;
-      }
-
-      currentUser = email;
-      alert("로그인 성공!");
-      emailInput.value = "";
-      passwordInput.value = "";
-      updateUIAfterLogin();
-      loadGuestbook();
-    });
-
-    // 로그아웃 이벤트
-    logoutBtn.addEventListener("click", () => {
-      currentUser = null;
-      updateUIAfterLogout();
-    });
-
-    // 로그인 상태 UI 업데이트
+    // UI 업데이트
     function updateUIAfterLogin() {
       authSection.style.display = "none";
       form.style.display = "block";
       logoutBtn.style.display = "inline-block";
       list.style.display = "block";
     }
-
     function updateUIAfterLogout() {
       authSection.style.display = "block";
       form.style.display = "none";
@@ -214,46 +164,69 @@
       list.style.display = "none";
     }
 
-    // 방명록 데이터 불러오기
-    function loadGuestbook() {
-      list.innerHTML = "";
-      const entries = JSON.parse(localStorage.getItem("guestbook")) || [];
-      entries.forEach(({ user, message }) => {
-        const li = document.createElement("li");
-        li.textContent = `${user}: ${message}`;
-        list.appendChild(li);
-      });
-    }
+    // 회원가입
+    signupBtn.addEventListener("click", () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      if (!email || !password) { alert("아이디와 비밀번호 입력"); return; }
 
-    // 방명록 데이터 저장
-    function saveGuestbookEntry(user, message) {
-      const entries = JSON.parse(localStorage.getItem("guestbook")) || [];
-      entries.push({ user, message });
-      localStorage.setItem("guestbook", JSON.stringify(entries));
-    }
-
-    // 방명록 비우기 (로그아웃시)
-    function clearGuestbook() {
-      list.innerHTML = "";
-    }
-
-    // 방명록 작성 이벤트
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const message = messageInput.value.trim();
-      if (!message) {
-        alert("메시지를 입력하세요.");
-        return;
-      }
-      saveGuestbookEntry(currentUser, message);
-      messageInput.value = "";
-      loadGuestbook();
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => alert("회원가입 성공! 로그인 해주세요."))
+        .catch(err => alert(err.message));
     });
 
-    // 페이지 로드 시 초기화
+    // 로그인
+    loginBtn.addEventListener("click", () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      if (!email || !password) { alert("아이디와 비밀번호 입력"); return; }
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          currentUser = email;
+          emailInput.value = "";
+          passwordInput.value = "";
+          updateUIAfterLogin();
+        })
+        .catch(err => alert(err.message));
+    });
+
+    // 로그아웃
+    logoutBtn.addEventListener("click", () => {
+      auth.signOut().then(() => {
+        currentUser = null;
+        updateUIAfterLogout();
+      });
+    });
+
+    // 방명록 작성
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const message = messageInput.value.trim();
+      if (!message) { alert("메시지 입력"); return; }
+
+      db.collection("guestbook").add({
+        user: currentUser,
+        message,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      messageInput.value = "";
+    });
+
+    // 방명록 실시간 불러오기
+    db.collection("guestbook").orderBy("createdAt")
+      .onSnapshot(snapshot => {
+        list.innerHTML = "";
+        snapshot.forEach(doc => {
+          const li = document.createElement("li");
+          li.textContent = `${doc.data().user}: ${doc.data().message}`;
+          list.appendChild(li);
+        });
+      });
+
+    // 초기화
     window.onload = () => {
-      updateUIAfterLogout(); // 초기엔 로그아웃 상태 UI로
+      updateUIAfterLogout();
     };
   </script>
 </body>
