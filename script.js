@@ -1,5 +1,5 @@
-// OpenWeather API 키 직접 입력
-const apiKey = "d3755b84dd6b6f2d1cf7d75d1b3aff30";  // 꼭 실제 키로 바꿀 것
+// ⚠️ 여기에 OpenWeather API 키 넣기
+const apiKey = "d3755b84dd6b6f2d1cf7d75d1b3aff30";  // 실제 키로 교체
 const city = "Changwon";
 
 function loadWeather() {
@@ -17,10 +17,11 @@ function loadWeather() {
       resultDiv.textContent = `${data.name} 날씨: ${weather}, ${temp}°C`;
     })
     .catch(error => {
-      resultDiv.textContent = "날씨 정보를 불러올 수 없습니다.";
+      resultDiv.textContent = "실패하였습니다";
       console.error("에러 발생:", error);
     });
 }
 
-// 페이지 로딩 시 실행
+// 페이지 로딩 시 바로 실행
 loadWeather();
+
