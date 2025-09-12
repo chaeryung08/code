@@ -1,4 +1,8 @@
-name: Test Weather
+name: Update Weather
+
+concurrency:
+  group: weather
+  cancel-in-progress: false
 
 on:
   workflow_dispatch:   # 수동 실행만
