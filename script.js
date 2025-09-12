@@ -1,6 +1,6 @@
 // ⚠️ 여기에 OpenWeather API 키 넣기
 const apiKey = "d3755b84dd6b6f2d1cf7d75d1b3aff30";  // 실제 키로 교체
-const city = "Changwon";
+const city = "Changwon,KR";
 
 function loadWeather() {
   const resultDiv = document.getElementById("weatherResult");
