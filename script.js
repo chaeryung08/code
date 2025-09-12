@@ -1,23 +1,27 @@
+// ⚠️ 네 OpenWeather API 키 넣기
+const apiKey = "d3755b84dd6b6f2d1cf7d75d1b3aff30";
+const city = "Changwon";
 
-async function loadWeather() {
-  const status = document.getElementById("status");
-  try {
-    const res = await fetch("data/weather.json?v=" + Date.now());
-    const j = await res.json();
+function loadWeather() {
+  const resultDiv = document.getElementById("weatherResult");
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=kr`;
 
-    document.getElementById("temp").textContent = j.values.temp;
-    document.getElementById("humidity").textContent = j.values.humidity;
-    document.getElementById("wind").textContent = j.values.wind;
-    document.getElementById("sky").textContent = j.values.sky_text;
-    document.getElementById("pty").textContent = j.values.pty_text;
-    document.getElementById("base").textContent =
-      `기준: ${j.base.date} ${j.base.time}`;
-
-    document.getElementById("weather-card").hidden = false;
-    status.textContent = "업데이트 완료 ✅";
-  } catch (err) {
-    console.error(err);
-    status.textContent = "날씨 데이터를 불러오지 못했습니다 😢";
-  }
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error("API 요청 실패");
+      return response.json();
+    })
+    .then(data => {
+      const weather = data.weather[0].description;
+      const temp = data.main.temp;
+      resultDiv.textContent = `${data.name}의 날씨: ${weather}, ${temp}°C`;
+    })
+    .catch(error => {
+      resultDiv.textContent = "날씨 정보를 불러올 수 없습니다.";
+      console.error(error);
+    });
 }
+
+// 페이지 로딩 시 바로 실행
 loadWeather();
+
