@@ -1,19 +1,54 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>CODE- 윤채령, 조예원, 김민서, 배다은</title>
-  <link rel="stylesheet" href="style-index.css">
-</head>
-<body>
-  <p class="top-note"> 윤채령 조예원 김민서 배다은 </p>
-  <h1>code-fox조</h1>
-  <div class="options">
-    <button onclick="location.href='weather.html'">날씨 확인 ☀️</button>
-    <button onclick="location.href='agriculture.html'">농사 직설 🌾</button>
-    <button onclick="location.href='diary.html'">방명록 🔖</button>
-  </div>
+/* 전체 페이지 기본 설정 */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #a1c4fd, #c2e9fb);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
 
-</body>
-</html>
+/* 상단 작은 노트 */
+.top-note {
+  margin-top: 20px;
+  color: #555;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* 메인 제목 */
+h1 {
+  margin: 40px 0 20px;
+  text-align: center;
+  color: #333;
+}
+
+/* 버튼 묶음 */
+.options {
+  display: flex;
+  flex-direction: column;  /* 버튼이 세로로 쌓이게 */
+  gap: 15px;
+  width: 200px;
+}
+
+/* 버튼 스타일 */
+.options button {
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 버튼 호버 효과 */
+.options button:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
 
