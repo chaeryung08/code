@@ -107,7 +107,7 @@
   <h1>방명록</h1>
 
   <div id="auth-section">
-    <input type="email" id="email" placeholder="이메일 입력" />
+    <input type="email" id="email" placeholder="아이디 입력" />
     <input type="password" id="password" placeholder="비밀번호 입력 (6자 이상)" />
     <button id="signup-btn">회원가입</button>
     <button id="login-btn">로그인</button>
@@ -134,7 +134,7 @@
     const messageInput = document.getElementById("guestbook-message");
     const list = document.getElementById("guestbook-list");
 
-    // 현재 로그인된 유저 이메일
+    // 현재 로그인된 유저 아이디
     let currentUser = null;
 
     // 로컬스토리지에서 회원 정보 읽기 (객체: { email: {password: "xxx"} })
@@ -148,7 +148,7 @@
       const password = passwordInput.value;
 
       if (!email || !password) {
-        alert("이메일과 비밀번호를 입력하세요.");
+        alert("아이디와 비밀번호를 입력하세요.");
         return;
       }
       if (password.length < 6) {
@@ -158,7 +158,7 @@
 
       const users = getUsers();
       if (users[email]) {
-        alert("이미 가입된 이메일입니다.");
+        alert("이미 가입된 아이디입니다.");
         return;
       }
 
@@ -175,13 +175,13 @@
       const password = passwordInput.value;
 
       if (!email || !password) {
-        alert("이메일과 비밀번호를 입력하세요.");
+        alert("아이디와 비밀번호를 입력하세요.");
         return;
       }
 
       const users = getUsers();
       if (!users[email] || users[email].password !== password) {
-        alert("이메일 또는 비밀번호가 틀렸습니다.");
+        alert("아이디 또는 비밀번호가 틀렸습니다.");
         return;
       }
 
