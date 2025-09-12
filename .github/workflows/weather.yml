@@ -1,35 +1,20 @@
-name: Update Weather
+name: Test Weather
 
 on:
-  schedule:
-    - cron: "0 */3 * * *"  # 3시간마다 실행
-  workflow_dispatch:       # 수동 실행도 가능
+  workflow_dispatch:   # 수동 실행만
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Install requests
-        run: pip install requests
+      - run: pip install requests
 
-      - name: Run weather script
-        run: python weather.py
+      - run: python weather.py
         env:
           API_KEY: ${{ secrets.WEATHER_API_KEY }}
-
-      - name: Commit changes
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add README.md
-          git commit -m "Update weather info" || echo "No changes"
-          git push
