@@ -1,56 +1,6 @@
-
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>우리 지역 지도</title>
-
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-sA+4jK1r8tOL7j1r+f4UFh+7gGkM4U3gt+M3kG2iYwY="
-    crossorigin=""
-  />
-
-  <style>
-    #map {
-      height: 400px;
-      width: 100%;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-  <h2>우리 지역 위치 🌾</h2>
-  <div id="map"></div>
-
-  <!-- Leaflet JS -->
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-pMprA6V2a0eFAW6XXpLvFvZB2Lw8LEA4J4F+gJ5pEeg="
-    crossorigin=""
-  ></script>
-
-  <script>
-    // ✅ 여기 지역 좌표 변경 가능 (예: 전라남도 순천시)
-    const myLocation = [35.2689° N, 128.6245° E]; // 위도, 경도
-
-    // 지도 생성
-    const map = L.map("map").setView(myLocation, 13);
-
-    // 기본 지도 타일 (무료)
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-    }).addTo(map);
-
-    // 마커 추가
-    L.marker(myLocation)
-      .addTo(map)
-      .bindPopup("<b>우리 지역: 의창구 소답동 🌾</b><br> 뀨 ")
-      .openPopup();
-  </script>
-</body>
-</html>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 100px;
+  background:linear-gradient(to bottom, #ffdddd, #ffffdd);
+}
