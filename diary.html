@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>공유 방명록</title>
   <style>
     /* ------------------------------ */
@@ -17,14 +17,14 @@
       border: 1px solid #ccc;
       border-radius: 10px;
       font-size: 14px;
-      width: 200px;
+      width: 220px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     #auth-section input {
       display: block;
-      width: 120px;
-      padding: 3px;
+      width: 90%;
+      padding: 6px;
       margin: 5px 0;
       border: 1px solid #ccc;
       border-radius: 6px;
@@ -41,8 +41,8 @@
     #auth-section button {
       display: block;
       width: 100%;
-      margin: 3px 0;
-      padding: 4px 8px;
+      margin: 4px 0;
+      padding: 6px 0;
       font-size: 12px;
       border: none;
       border-radius: 4px;
@@ -51,21 +51,22 @@
       color: white;
       transition: background 0.2s;
     }
-
     #auth-section button:hover {
       background: #5599dd;
     }
 
-    #logout-btn {
-      background: #ff6666;
-    }
-    #logout-btn:hover {
-      background: #dd4444;
-    }
+    #logout-btn { background: #ff6666; }
+    #logout-btn:hover { background: #dd4444; }
 
-  
     /* ------------------------------ */
-    /* 방명록 영역 */
+    /* body & 제목 */
+    /* ------------------------------ */
+    html, body { height: 100%; margin: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f2f2f2; }
+    h1 { color: #414241; text-align: center; margin-top: 30px; }
+
+    /* ------------------------------ */
+    /* 방명록 */
     /* ------------------------------ */
     #guestbook-form {
       display: none;
@@ -101,7 +102,7 @@
       margin-top: 30px;
       list-style: none;
       padding: 0;
-      max-width: 360px;
+      max-width: 480px;
       margin-left: auto;
       margin-right: auto;
       text-align: left;
@@ -114,14 +115,25 @@
       margin-bottom: 10px;
       word-break: break-word;
     }
+
+    #guestbook-list li button {
+      margin-left: 10px;
+      background: #ff6666;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 2px 5px;
+    }
+    #guestbook-list li button:hover { background: #dd4444; }
   </style>
 </head>
-
 <body>
-  <h1>방명록</h1>
+  <h1>공유 방명록</h1>
 
   <div id="auth-section">
-    <input type="email" id="email" placeholder="구글메일 입력" />
+    <input type="email" id="email" placeholder="아이디(이메일) 입력" />
     <input type="password" id="password" placeholder="비밀번호 입력 (6자 이상)" />
     <button id="signup-btn">회원가입</button>
     <button id="login-btn">로그인</button>
@@ -135,15 +147,13 @@
 
   <ul id="guestbook-list"></ul>
 
-  <!-- ---------------- Firebase JS ---------------- -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
     window.onload = () => {
-
-      // 🔧 Firebase 설정
+      // Firebase 설정
       const firebaseConfig = {
         apiKey: "AIzaSyCp5iurcNAGradwuUVj3rMtSHuJvHr1gts",
         authDomain: "code081021.firebaseapp.com",
@@ -158,7 +168,7 @@
       const auth = getAuth(app);
       const db = getFirestore(app);
 
-      // HTML 요소 가져오기
+      // 요소
       const emailInput = document.getElementById("email");
       const passwordInput = document.getElementById("password");
       const signupBtn = document.getElementById("signup-btn");
@@ -170,13 +180,13 @@
 
       let currentUser = null;
 
-      // UI 업데이트
       function updateUIAfterLogin() {
         document.getElementById("auth-section").style.display = "none";
         form.style.display = "block";
         logoutBtn.style.display = "inline-block";
         list.style.display = "block";
       }
+
       function updateUIAfterLogout() {
         document.getElementById("auth-section").style.display = "block";
         form.style.display = "none";
@@ -184,28 +194,36 @@
         list.style.display = "none";
       }
 
-      // 회원가입
+      // 회원가입 + 이메일 인증
       signupBtn.addEventListener("click", async () => {
         const email = emailInput.value.trim();
         const password = passwordInput.value;
         if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
 
         try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          alert("회원가입 성공! 로그인 해주세요.");
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+          await sendEmailVerification(user);
+          alert("회원가입 성공! 이메일 인증을 확인한 후 로그인하세요.");
         } catch (err) {
           alert(err.message);
         }
       });
 
-      // 로그인
+      // 로그인 (이메일 인증 확인)
       loginBtn.addEventListener("click", async () => {
         const email = emailInput.value.trim();
         const password = passwordInput.value;
         if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
 
         try {
-          await signInWithEmailAndPassword(auth, email, password);
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+          if (!user.emailVerified) {
+            alert("이메일 인증을 완료해주세요!");
+            await signOut(auth);
+            return;
+          }
           currentUser = email;
           emailInput.value = "";
           passwordInput.value = "";
@@ -222,7 +240,7 @@
         updateUIAfterLogout();
       });
 
-      // 방명록 등록
+      // 방명록 작성
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const message = messageInput.value.trim();
@@ -231,25 +249,8 @@
         await addDoc(collection(db, "guestbook"), {
           user: currentUser,
           message,
-          createdAt: serverTimestamp(),
+          createdAt: serverTimestamp()
         });
         messageInput.value = "";
       });
 
-      // 방명록 실시간 불러오기
-      const q = query(collection(db, "guestbook"), orderBy("createdAt"));
-      onSnapshot(q, (snapshot) => {
-        list.innerHTML = "";
-        snapshot.forEach((doc) => {
-          const li = document.createElement("li");
-          li.textContent = `${doc.data().user}: ${doc.data().message}`;
-          list.appendChild(li);
-        });
-      });
-
-      updateUIAfterLogout();
-      console.log("✅ Firebase 방명록 페이지 로드됨");
-    };
-  </script>
-</body>
-</html>
