@@ -158,7 +158,6 @@
     import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    // Firebase 설정
     const firebaseConfig = {
       apiKey: "AIzaSyCp5iurcNAGradwuUVj3rMtSHuJvHr1gts",
       authDomain: "code081021.firebaseapp.com",
@@ -172,7 +171,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // 요소
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const signupBtn = document.getElementById("signup-btn");
@@ -184,6 +182,11 @@
     const list = document.getElementById("guestbook-list");
 
     let currentUser = null;
+
+    function showMessage(msg) {
+      authMessage.textContent = msg;
+      setTimeout(() => { authMessage.textContent = ""; }, 4000);
+    }
 
     function updateUIAfterLogin() {
       document.getElementById("auth-section").style.display = "none";
@@ -205,14 +208,14 @@
     signupBtn.addEventListener("click", async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      if (!email || !password) { authMessage.textContent = "아이디와 비밀번호를 입력하세요"; return; }
+      if (!email || !password) { showMessage("아이디와 비밀번호를 입력하세요"); return; }
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         await sendEmailVerification(user);
-        authMessage.textContent = "회원가입 성공! 이메일 인증을 확인한 후 로그인하세요.";
+        showMessage("회원가입 성공! 이메일 인증을 확인한 후 로그인하세요.");
       } catch (err) {
-        authMessage.textContent = err.message;
+        showMessage(err.message);
       }
     });
 
@@ -220,17 +223,17 @@
     loginBtn.addEventListener("click", async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      if (!email || !password) { authMessage.textContent = "아이디와 비밀번호를 입력하세요"; return; }
+      if (!email || !password) { showMessage("아이디와 비밀번호를 입력하세요"); return; }
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         if (!user.emailVerified) {
-          authMessage.textContent = "이메일 인증을 완료해주세요! (메일을 확인하세요)";
+          showMessage("이메일 인증을 완료해주세요! (메일을 확인하세요)");
           await signOut(auth);
           return;
         }
       } catch (err) {
-        authMessage.textContent = err.message;
+        showMessage(err.message);
       }
     });
 
@@ -246,15 +249,13 @@
     });
 
     // 로그아웃
-    logoutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-    });
+    logoutBtn.addEventListener("click", async () => { await signOut(auth); });
 
     // 방명록 작성
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const message = messageInput.value.trim();
-      if (!message) { authMessage.textContent = "메시지를 입력하세요"; return; }
+      if (!message) { showMessage("메시지를 입력하세요"); return; }
       await addDoc(collection(db, "guestbook"), {
         user: currentUser,
         message,
@@ -276,13 +277,4 @@
           const delBtn = document.createElement("button");
           delBtn.textContent = "삭제";
           delBtn.addEventListener("click", async () => {
-            await deleteDoc(doc(db, "guestbook", docSnap.id));
-          });
-          li.appendChild(delBtn);
-        }
-        list.appendChild(li);
-      });
-    });
-  </script>
-</body>
-</html>
+            await deleteDoc(doc(db
