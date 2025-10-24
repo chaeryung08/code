@@ -75,3 +75,25 @@ button:active {
   transform: translateY(0px);
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
+
+
+
+
+
+
+<!-- 🌾 지도 보기 버튼 섹션 -->
+<div id="region-section">
+  <h2>우리 지역 날씨 & 위치 🌦️</h2>
+  <p class="top-note">아래 버튼을 눌러 우리 지역의 지도를 확인해보세요.</p>
+
+  <!-- 지도 보기 버튼 -->
+  <button id="showMapBtn">지도 보기</button>
+
+  <!-- 지도 표시 영역 (초기 숨김) -->
+  <div id="mapContainer" style="display:none; margin-top:40px;">
+    <div id="map"
+         style="height:400px;width:80%;max-width:800px;
+                margin:0 auto;border-radius:15px;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+    </div>
+  </div>
+</div>
