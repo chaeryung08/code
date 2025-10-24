@@ -6,10 +6,7 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin-top: 100px;
-  background: linear-gradient(to bottom, #dde5ff, #eeddff);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  color: #414241;
+  background:linear-gradient(to bottom, #ffdddd, #ffffdd);
 }
 
 .container {
