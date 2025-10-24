@@ -52,7 +52,6 @@
       transition: background 0.2s;
     }
     #auth-section button:hover { background: #5599dd; }
-
     #logout-btn { background: #ff6666; }
     #logout-btn:hover { background: #dd4444; }
 
@@ -63,9 +62,16 @@
     body { background-color: #f2f2f2; }
     h1 { color: #414241; text-align: center; margin-top: 30px; }
 
-    /메세지칸/
-    <div id="auth-message" style="color: red; margin-top: 10px; font-size: 14px;"></div>
-
+    /* ------------------------------ */
+    /* 이메일 인증 & 로그인 메시지 */
+    /* ------------------------------ */
+    #auth-message {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+      min-height: 18px;
+      text-align: center;
+    }
 
     /* ------------------------------ */
     /* 방명록 */
@@ -95,7 +101,6 @@
       margin-left: 8px;
       transition: background 0.2s;
     }
-
     #guestbook-form button:hover { background: #5599dd; }
 
     #guestbook-list {
@@ -138,6 +143,7 @@
     <button id="signup-btn">회원가입</button>
     <button id="login-btn">로그인</button>
     <button id="logout-btn">로그아웃</button>
+    <div id="auth-message"></div>
   </div>
 
   <form id="guestbook-form">
@@ -172,6 +178,7 @@
     const signupBtn = document.getElementById("signup-btn");
     const loginBtn = document.getElementById("login-btn");
     const logoutBtn = document.getElementById("logout-btn");
+    const authMessage = document.getElementById("auth-message");
     const form = document.getElementById("guestbook-form");
     const messageInput = document.getElementById("guestbook-message");
     const list = document.getElementById("guestbook-list");
@@ -183,6 +190,7 @@
       form.style.display = "block";
       logoutBtn.style.display = "inline-block";
       list.style.display = "block";
+      authMessage.textContent = "";
     }
 
     function updateUIAfterLogout() {
@@ -190,20 +198,21 @@
       form.style.display = "none";
       logoutBtn.style.display = "none";
       list.style.display = "none";
+      authMessage.textContent = "";
     }
 
     // 회원가입
     signupBtn.addEventListener("click", async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
+      if (!email || !password) { authMessage.textContent = "아이디와 비밀번호를 입력하세요"; return; }
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         await sendEmailVerification(user);
-        alert("회원가입 성공! 이메일 인증을 확인한 후 로그인하세요.");
+        authMessage.textContent = "회원가입 성공! 이메일 인증을 확인한 후 로그인하세요.";
       } catch (err) {
-        alert(err.message);
+        authMessage.textContent = err.message;
       }
     });
 
@@ -211,17 +220,17 @@
     loginBtn.addEventListener("click", async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
+      if (!email || !password) { authMessage.textContent = "아이디와 비밀번호를 입력하세요"; return; }
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         if (!user.emailVerified) {
-          alert("이메일 인증을 완료해주세요!");
+          authMessage.textContent = "이메일 인증을 완료해주세요! (메일을 확인하세요)";
           await signOut(auth);
           return;
         }
       } catch (err) {
-        alert(err.message);
+        authMessage.textContent = err.message;
       }
     });
 
@@ -245,7 +254,7 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const message = messageInput.value.trim();
-      if (!message) return alert("메시지를 입력하세요");
+      if (!message) { authMessage.textContent = "메시지를 입력하세요"; return; }
       await addDoc(collection(db, "guestbook"), {
         user: currentUser,
         message,
