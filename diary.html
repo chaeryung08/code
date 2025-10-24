@@ -51,9 +51,7 @@
       color: white;
       transition: background 0.2s;
     }
-    #auth-section button:hover {
-      background: #5599dd;
-    }
+    #auth-section button:hover { background: #5599dd; }
 
     #logout-btn { background: #ff6666; }
     #logout-btn:hover { background: #dd4444; }
@@ -94,9 +92,7 @@
       transition: background 0.2s;
     }
 
-    #guestbook-form button:hover {
-      background: #5599dd;
-    }
+    #guestbook-form button:hover { background: #5599dd; }
 
     #guestbook-list {
       margin-top: 30px;
@@ -149,108 +145,131 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    window.onload = () => {
-      // Firebase 설정
-      const firebaseConfig = {
-        apiKey: "AIzaSyCp5iurcNAGradwuUVj3rMtSHuJvHr1gts",
-        authDomain: "code081021.firebaseapp.com",
-        projectId: "code081021",
-        storageBucket: "code081021.firebasestorage.app",
-        messagingSenderId: "249542583135",
-        appId: "1:249542583135:web:8c44e6fecdf347b1128cea",
-        measurementId: "G-W98E723PXB"
-      };
+    // Firebase 설정
+    const firebaseConfig = {
+      apiKey: "AIzaSyCp5iurcNAGradwuUVj3rMtSHuJvHr1gts",
+      authDomain: "code081021.firebaseapp.com",
+      projectId: "code081021",
+      storageBucket: "code081021.firebasestorage.app",
+      messagingSenderId: "249542583135",
+      appId: "1:249542583135:web:8c44e6fecdf347b1128cea",
+      measurementId: "G-W98E723PXB"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const db = getFirestore(app);
+    // 요소
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const signupBtn = document.getElementById("signup-btn");
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const form = document.getElementById("guestbook-form");
+    const messageInput = document.getElementById("guestbook-message");
+    const list = document.getElementById("guestbook-list");
 
-      // 요소
-      const emailInput = document.getElementById("email");
-      const passwordInput = document.getElementById("password");
-      const signupBtn = document.getElementById("signup-btn");
-      const loginBtn = document.getElementById("login-btn");
-      const logoutBtn = document.getElementById("logout-btn");
-      const form = document.getElementById("guestbook-form");
-      const messageInput = document.getElementById("guestbook-message");
-      const list = document.getElementById("guestbook-list");
+    let currentUser = null;
 
-      let currentUser = null;
+    function updateUIAfterLogin() {
+      document.getElementById("auth-section").style.display = "none";
+      form.style.display = "block";
+      logoutBtn.style.display = "inline-block";
+      list.style.display = "block";
+    }
 
-      function updateUIAfterLogin() {
-        document.getElementById("auth-section").style.display = "none";
-        form.style.display = "block";
-        logoutBtn.style.display = "inline-block";
-        list.style.display = "block";
+    function updateUIAfterLogout() {
+      document.getElementById("auth-section").style.display = "block";
+      form.style.display = "none";
+      logoutBtn.style.display = "none";
+      list.style.display = "none";
+    }
+
+    // 회원가입
+    signupBtn.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        await sendEmailVerification(user);
+        alert("회원가입 성공! 이메일 인증을 확인한 후 로그인하세요.");
+      } catch (err) {
+        alert(err.message);
       }
+    });
 
-      function updateUIAfterLogout() {
-        document.getElementById("auth-section").style.display = "block";
-        form.style.display = "none";
-        logoutBtn.style.display = "none";
-        list.style.display = "none";
+    // 로그인
+    loginBtn.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        if (!user.emailVerified) {
+          alert("이메일 인증을 완료해주세요!");
+          await signOut(auth);
+          return;
+        }
+      } catch (err) {
+        alert(err.message);
       }
+    });
 
-      // 회원가입 + 이메일 인증
-      signupBtn.addEventListener("click", async () => {
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-        if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
-
-        try {
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-          await sendEmailVerification(user);
-          alert("회원가입 성공! 이메일 인증을 확인한 후 로그인하세요.");
-        } catch (err) {
-          alert(err.message);
-        }
-      });
-
-      // 로그인 (이메일 인증 확인)
-      loginBtn.addEventListener("click", async () => {
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-        if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
-
-        try {
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-          if (!user.emailVerified) {
-            alert("이메일 인증을 완료해주세요!");
-            await signOut(auth);
-            return;
-          }
-          currentUser = email;
-          emailInput.value = "";
-          passwordInput.value = "";
-          updateUIAfterLogin();
-        } catch (err) {
-          alert(err.message);
-        }
-      });
-
-      // 로그아웃
-      logoutBtn.addEventListener("click", async () => {
-        await signOut(auth);
+    // Auth 상태 감지
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.emailVerified) {
+        currentUser = user.email;
+        updateUIAfterLogin();
+      } else {
         currentUser = null;
         updateUIAfterLogout();
+      }
+    });
+
+    // 로그아웃
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+    });
+
+    // 방명록 작성
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const message = messageInput.value.trim();
+      if (!message) return alert("메시지를 입력하세요");
+      await addDoc(collection(db, "guestbook"), {
+        user: currentUser,
+        message,
+        createdAt: serverTimestamp()
       });
+      messageInput.value = "";
+    });
 
-      // 방명록 작성
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const message = messageInput.value.trim();
-        if (!message) return alert("메시지를 입력하세요");
-
-        await addDoc(collection(db, "guestbook"), {
-          user: currentUser,
-          message,
-          createdAt: serverTimestamp()
-        });
-        messageInput.value = "";
+    // 실시간 방명록 (최신 위, 시간 표시, 삭제 버튼)
+    const q = query(collection(db, "guestbook"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      list.innerHTML = "";
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const li = document.createElement("li");
+        const time = data.createdAt ? data.createdAt.toDate().toLocaleString() : "";
+        li.innerHTML = `<strong>${data.user}</strong> (${time}): ${data.message}`;
+        if (currentUser === data.user) {
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "삭제";
+          delBtn.addEventListener("click", async () => {
+            await deleteDoc(doc(db, "guestbook", docSnap.id));
+          });
+          li.appendChild(delBtn);
+        }
+        list.appendChild(li);
       });
-
+    });
+  </script>
+</body>
+</html>
