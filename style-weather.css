@@ -16,7 +16,7 @@ body {
 }
 
 .container {
-  background: white;
+  background: rgba(255,255,255,0.9);
   margin-top: 50px;
   padding: 20px 30px;
   border-radius: 20px;
