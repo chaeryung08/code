@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,11 +19,6 @@
       font-size: 14px;
       width: 200px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    #auth-section h2 {
-      font-size: 14px;
-      margin: 0 0 8px 0;
     }
 
     #auth-section input {
@@ -75,10 +66,7 @@
     /* ------------------------------ */
     /* 전체 body & 제목 */
     /* ------------------------------ */
-    html {
-      height: 100%;
-    }
-
+    html { height: 100%; }
     body {
       min-height: 100%;
       font-family: Arial, sans-serif;
@@ -86,10 +74,7 @@
       background-color: #f2f2f2; /* 단색 배경 */
     }
 
-    h1 {
-      color: #414241;
-      text-align: center;
-    }
+    h1 { color: #414241; text-align: center; }
 
     /* ------------------------------ */
     /* 방명록 영역 */
@@ -162,112 +147,120 @@
 
   <ul id="guestbook-list"></ul>
 
-  <!-- ✅ Firebase 코드 (body 맨 아래로 이동) -->
+  <!-- ---------------- Firebase JS ---------------- -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    // 🔧 Firebase 설정 (여기 네 Firebase 프로젝트 값으로 바꿔 넣기)
-        const firebaseConfig = {
-    apiKey: "AIzaSyCp5iurcNAGradwuUVj3rMtSHuJvHr1gts",
-    authDomain: "code081021.firebaseapp.com",
-    projectId: "code081021",
-    storageBucket: "code081021.firebasestorage.app",
-    messagingSenderId: "249542583135",
-    appId: "1:249542583135:web:8c44e6fecdf347b1128cea",
-    measurementId: "G-W98E723PXB"
-    }
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // HTML 요소 가져오기
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const signupBtn = document.getElementById("signup-btn");
-    const loginBtn = document.getElementById("login-btn");
-    const logoutBtn = document.getElementById("logout-btn");
-    const form = document.getElementById("guestbook-form");
-    const messageInput = document.getElementById("guestbook-message");
-    const list = document.getElementById("guestbook-list");
-
-    let currentUser = null;
-
-    function updateUIAfterLogin() {
-      document.getElementById("auth-section").style.display = "none";
-      form.style.display = "block";
-      logoutBtn.style.display = "inline-block";
-      list.style.display = "block";
-    }
-    function updateUIAfterLogout() {
-      document.getElementById("auth-section").style.display = "block";
-      form.style.display = "none";
-      logoutBtn.style.display = "none";
-      list.style.display = "none";
-    }
-
-    signupBtn.addEventListener("click", async () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-      if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
-
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("회원가입 성공! 로그인 해주세요.");
-      } catch (err) {
-        alert(err.message);
-      }
-    });
-
-    loginBtn.addEventListener("click", async () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-      if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        currentUser = email;
-        emailInput.value = "";
-        passwordInput.value = "";
-        updateUIAfterLogin();
-      } catch (err) {
-        alert(err.message);
-      }
-    });
-
-    logoutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-      currentUser = null;
-      updateUIAfterLogout();
-    });
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const message = messageInput.value.trim();
-      if (!message) return alert("메시지를 입력하세요");
-
-      await addDoc(collection(db, "guestbook"), {
-        user: currentUser,
-        message,
-        createdAt: serverTimestamp(),
-      });
-      messageInput.value = "";
-    });
-
-    const q = query(collection(db, "guestbook"), orderBy("createdAt"));
-    onSnapshot(q, (snapshot) => {
-      list.innerHTML = "";
-      snapshot.forEach((doc) => {
-        const li = document.createElement("li");
-        li.textContent = `${doc.data().user}: ${doc.data().message}`;
-        list.appendChild(li);
-      });
-    });
-
     window.onload = () => {
+
+      // 🔧 Firebase 설정
+      const firebaseConfig = {
+        apiKey: "AIzaSyCp5iurcNAGradwuUVj3rMtSHuJvHr1gts",
+        authDomain: "code081021.firebaseapp.com",
+        projectId: "code081021",
+        storageBucket: "code081021.firebasestorage.app",
+        messagingSenderId: "249542583135",
+        appId: "1:249542583135:web:8c44e6fecdf347b1128cea",
+        measurementId: "G-W98E723PXB"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      // HTML 요소 가져오기
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const signupBtn = document.getElementById("signup-btn");
+      const loginBtn = document.getElementById("login-btn");
+      const logoutBtn = document.getElementById("logout-btn");
+      const form = document.getElementById("guestbook-form");
+      const messageInput = document.getElementById("guestbook-message");
+      const list = document.getElementById("guestbook-list");
+
+      let currentUser = null;
+
+      // UI 업데이트
+      function updateUIAfterLogin() {
+        document.getElementById("auth-section").style.display = "none";
+        form.style.display = "block";
+        logoutBtn.style.display = "inline-block";
+        list.style.display = "block";
+      }
+      function updateUIAfterLogout() {
+        document.getElementById("auth-section").style.display = "block";
+        form.style.display = "none";
+        logoutBtn.style.display = "none";
+        list.style.display = "none";
+      }
+
+      // 회원가입
+      signupBtn.addEventListener("click", async () => {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
+
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          alert("회원가입 성공! 로그인 해주세요.");
+        } catch (err) {
+          alert(err.message);
+        }
+      });
+
+      // 로그인
+      loginBtn.addEventListener("click", async () => {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        if (!email || !password) return alert("아이디와 비밀번호를 입력하세요");
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          currentUser = email;
+          emailInput.value = "";
+          passwordInput.value = "";
+          updateUIAfterLogin();
+        } catch (err) {
+          alert(err.message);
+        }
+      });
+
+      // 로그아웃
+      logoutBtn.addEventListener("click", async () => {
+        await signOut(auth);
+        currentUser = null;
+        updateUIAfterLogout();
+      });
+
+      // 방명록 등록
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (!message) return alert("메시지를 입력하세요");
+
+        await addDoc(collection(db, "guestbook"), {
+          user: currentUser,
+          message,
+          createdAt: serverTimestamp(),
+        });
+        messageInput.value = "";
+      });
+
+      // 방명록 실시간 불러오기
+      const q = query(collection(db, "guestbook"), orderBy("createdAt"));
+      onSnapshot(q, (snapshot) => {
+        list.innerHTML = "";
+        snapshot.forEach((doc) => {
+          const li = document.createElement("li");
+          li.textContent = `${doc.data().user}: ${doc.data().message}`;
+          list.appendChild(li);
+        });
+      });
+
       updateUIAfterLogout();
+      console.log("✅ Firebase 방명록 페이지 로드됨");
     };
   </script>
 </body>
