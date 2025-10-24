@@ -62,15 +62,33 @@ html {
   height: 100%;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin-top: 100px;
-  background: linear-gradient(to bottom, #dde5ff, #eeddff);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  color: #414241;
+  background:linear-gradient(to bottom, #ffdddd, #ffffdd);
 }
+
+.container {
+  background: white;
+  margin-top: 50px;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  max-width: 400px;
+  width: 90%;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+  font-size: 1.8em;
+}
+
 h1 {
   color: #414241;
   text-align: center;
