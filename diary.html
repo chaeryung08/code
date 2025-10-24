@@ -6,43 +6,59 @@
   <style>
     /* 로그인/회원가입 */
     #auth-section {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(255,255,255,0.9);
-      padding: 15px;
-      border-radius: 10px;
-      width: 220px;
+      position: fixed; top: 20px; right: 20px;
+      background: rgba(255,255,255,0.9); padding: 15px;
+      border: 1px solid #ccc; border-radius: 10px;
+      font-size: 14px; width: 220px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    #auth-section input, #auth-section button { width: 100%; margin: 5px 0; padding: 6px; font-size: 12px; }
-    #auth-section button { cursor: pointer; border: none; border-radius: 4px; color: white; background: #66aaff; }
+    #auth-section input {
+      display: block; width: 90%; padding: 6px; margin: 5px 0;
+      border: 1px solid #ccc; border-radius: 6px; font-size: 12px;
+      outline: none; transition: 0.2s;
+    }
+    #auth-section input:focus { border-color: #66aaff; box-shadow: 0 0 5px rgba(102,170,255,0.5); }
+    #auth-section button {
+      display: block; width: 100%; margin: 4px 0; padding: 6px 0;
+      font-size: 12px; border: none; border-radius: 4px;
+      cursor: pointer; background: #66aaff; color: white;
+      transition: 0.2s;
+    }
     #auth-section button:hover { background: #5599dd; }
     #logout-btn { background: #ff6666; }
     #logout-btn:hover { background: #dd4444; }
 
-    body { font-family: Arial; background: #f2f2f2; margin:0; padding:0; }
-    h1 { text-align: center; margin-top: 30px; color: #414241; }
+    html, body { height: 100%; margin: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f2f2f2; }
+    h1 { text-align: center; color: #414241; margin-top: 30px; }
 
-    #auth-message { color: red; text-align:center; min-height:18px; margin-top:10px; }
+    #auth-message { color: red; margin-top: 10px; font-size: 14px; min-height: 18px; text-align: center; }
 
-    #guestbook-form { display:none; text-align:center; margin-top:20px; }
-    #guestbook-form input { width:300px; padding:10px; border-radius:6px; border:1px solid #ccc; }
-    #guestbook-form button { padding:10px 15px; border-radius:6px; background:#66aaff; color:white; cursor:pointer; margin-left:8px; border:none; }
-    #guestbook-form button:hover { background:#5599dd; }
+    #guestbook-form { display: none; margin-top: 20px; text-align: center; }
+    #guestbook-form input { width: 300px; padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc; }
+    #guestbook-form button { padding: 10px 15px; font-size: 14px; border: none; border-radius: 6px; background: #66aaff; color: white; cursor: pointer; margin-left: 8px; transition: background 0.2s; }
+    #guestbook-form button:hover { background: #5599dd; }
 
-    #guestbook-list { list-style:none; padding:0; max-width:480px; margin:30px auto 0 auto; }
-    #guestbook-list li { background:#e6f2ff; padding:10px; border-radius:6px; margin-bottom:10px; word-break:break-word; }
-    #guestbook-list li button { margin-left:10px; background:#ff6666; color:white; border:none; border-radius:4px; cursor:pointer; font-size:12px; padding:2px 5px; }
-    #guestbook-list li button:hover { background:#dd4444; }
+    #guestbook-list {
+      margin-top: 30px; list-style: none; padding: 0;
+      max-width: 480px; margin-left: auto; margin-right: auto; text-align: left;
+    }
+    #guestbook-list li {
+      background: #e6f2ff; padding: 10px; border-radius: 6px; margin-bottom: 10px; word-break: break-word;
+    }
+    #guestbook-list li button {
+      margin-left: 10px; background: #ff6666; color: #fff; border: none; border-radius: 4px;
+      cursor: pointer; font-size: 12px; padding: 2px 5px;
+    }
+    #guestbook-list li button:hover { background: #dd4444; }
   </style>
 </head>
 <body>
   <h1>공유 방명록</h1>
 
   <div id="auth-section">
-    <input type="email" id="email" placeholder="아이디(이메일)" />
-    <input type="password" id="password" placeholder="비밀번호 (6자 이상)" />
+    <input type="email" id="email" placeholder="아이디(이메일) 입력">
+    <input type="password" id="password" placeholder="비밀번호 입력 (6자 이상)">
     <button id="signup-btn">회원가입</button>
     <button id="login-btn">로그인</button>
     <button id="logout-btn">로그아웃</button>
@@ -50,7 +66,7 @@
   </div>
 
   <form id="guestbook-form">
-    <input type="text" id="guestbook-message" placeholder="메시지를 입력하세요" />
+    <input type="text" id="guestbook-message" placeholder="메시지를 입력하세요">
     <button type="submit">등록</button>
   </form>
 
@@ -70,7 +86,6 @@
       appId: "1:249542583135:web:8c44e6fecdf347b1128cea",
       measurementId: "G-W98E723PXB"
     };
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -89,87 +104,78 @@
 
     function showMessage(msg) {
       authMessage.textContent = msg;
-      setTimeout(() => authMessage.textContent="", 4000);
+      setTimeout(() => { authMessage.textContent = ""; }, 4000);
     }
 
     function updateUIAfterLogin() {
-      document.getElementById("auth-section").style.display="none";
-      form.style.display="block";
-      logoutBtn.style.display="inline-block";
-      list.style.display="block";
-      authMessage.textContent="";
+      document.getElementById("auth-section").style.display = "none";
+      form.style.display = "block";
+      logoutBtn.style.display = "inline-block";
+      list.style.display = "block";
+      authMessage.textContent = "";
     }
 
     function updateUIAfterLogout() {
-      document.getElementById("auth-section").style.display="block";
-      form.style.display="none";
-      logoutBtn.style.display="none";
-      list.style.display="none";
-      authMessage.textContent="";
+      document.getElementById("auth-section").style.display = "block";
+      form.style.display = "none";
+      logoutBtn.style.display = "none";
+      list.style.display = "none";
+      authMessage.textContent = "";
     }
 
+    // 회원가입
     signupBtn.addEventListener("click", async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      if(!email||!password){ showMessage("아이디와 비밀번호를 입력하세요"); return; }
-      try{
-        await createUserWithEmailAndPassword(auth,email,password);
-        showMessage("회원가입 성공!");
-      }catch(err){ showMessage(err.message); }
+      if (!email || !password) { showMessage("아이디와 비밀번호를 입력하세요"); return; }
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        showMessage("회원가입 성공! 로그인되었습니다.");
+      } catch (err) { showMessage(err.message); }
     });
 
+    // 로그인
     loginBtn.addEventListener("click", async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      if(!email||!password){ showMessage("아이디와 비밀번호를 입력하세요"); return; }
-      try{
-        await signInWithEmailAndPassword(auth,email,password);
-      }catch(err){ showMessage(err.message); }
+      if (!email || !password) { showMessage("아이디와 비밀번호를 입력하세요"); return; }
+      try { await signInWithEmailAndPassword(auth, email, password); }
+      catch (err) { showMessage(err.message); }
     });
 
-    logoutBtn.addEventListener("click", async()=>{ await signOut(auth); });
-
-    onAuthStateChanged(auth, (user)=>{
-      if(user){
+    // Auth 상태 감지
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
         currentUser = user.email;
         updateUIAfterLogin();
-      }else{
+      } else {
         currentUser = null;
         updateUIAfterLogout();
       }
     });
 
-    form.addEventListener("submit", async (e)=>{
+    // 로그아웃
+    logoutBtn.addEventListener("click", async () => { await signOut(auth); });
+
+    // 방명록 작성
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const message = messageInput.value.trim();
-      if(!message){ showMessage("메시지를 입력하세요"); return; }
-      await addDoc(collection(db,"guestbook"),{
-        user:currentUser,
+      if (!message) { showMessage("메시지를 입력하세요"); return; }
+      await addDoc(collection(db, "guestbook"), {
+        user: currentUser,
         message,
-        createdAt:serverTimestamp()
+        createdAt: serverTimestamp()
       });
-      messageInput.value="";
+      messageInput.value = "";
     });
 
-    const q = query(collection(db,"guestbook"), orderBy("createdAt","desc"));
-    onSnapshot(q,(snapshot)=>{
-      list.innerHTML="";
-      snapshot.forEach((docSnap)=>{
+    // 실시간 방명록 (최신 위, 시간 표시, 삭제 버튼)
+    const q = query(collection(db, "guestbook"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      list.innerHTML = "";
+      snapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const li = document.createElement("li");
         const time = data.createdAt ? data.createdAt.toDate().toLocaleString() : "";
-        li.innerHTML = `<strong>${data.user}</strong> (${time}): ${data.message}`;
-        if(currentUser===data.user){
-          const delBtn = document.createElement("button");
-          delBtn.textContent="삭제";
-          delBtn.addEventListener("click", async ()=>{
-            await deleteDoc(doc(db,"guestbook",docSnap.id));
-          });
-          li.appendChild(delBtn);
-        }
-        list.appendChild(li);
-      });
-    });
-  </script>
-</body>
-</html>
+        li.innerHTML = `<strong>${data
