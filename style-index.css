@@ -10,3 +10,153 @@ body {
   background: #ffffff;
   color: #1b1f23;
 }
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>학교농사를위햏ㅎㅎ</title>
+  <style>
+  /* ====== 사용자 편집 영역 ======
+     아래 CSS 변수로 색, 글꼴 크기 등을 쉽게 바꿀 수 있습니다. */
+  :root{
+    --bg:#ffffff;
+    --accent:#19a6ff; /* 파란색 포인트 */
+    --muted:#6b7a85;
+    --dark:#0f2130;
+    --max-width:1200px;
+    --gutter:32px;
+    --font-sans: 'Segoe UI', Roboto, 'Noto Sans KR', Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{font-family:var(--font-sans);margin:0;background:var(--bg);color:var(--dark);}
+  .wrap{max-width:var(--max-width);margin:0 auto;padding:48px var(--gutter);display:flex;align-items:flex-start;gap:40px}
+
+  /* 상단 네비게이션 */
+  header{position:absolute;left:0;right:0;top:20px;display:flex;justify-content:center}
+  .nav{max-width:var(--max-width);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter)}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--accent)}
+  .brand .logo{width:22px;height:22px;background:linear-gradient(135deg,var(--dark),var(--accent));border-radius:3px}
+  nav ul{list-style:none;display:flex;gap:28px;margin:0;padding:0;align-items:center}
+  nav a{color:var(--muted);text-decoration:none;font-weight:600}
+  nav a.active{color:var(--dark);border-bottom:3px solid rgba(25,166,255,0.15);padding-bottom:6px}
+
+  /* 히어로 영역 */
+  .hero{display:flex;align-items:center;justify-content:space-between;gap:32px;padding-top:40px}
+  .hero-left{flex:0 0 55%}
+  .kicker{color:var(--accent);font-weight:700;margin-bottom:16px}
+  h1{font-size:72px;line-height:0.95;margin:0 0 18px;font-weight:800;color:var(--dark)}
+  p.lead{color:var(--muted);font-size:16px;margin:0 0 28px}
+  .cta{display:flex;gap:18px;align-items:center}
+  .btn{background:var(--accent);color:white;padding:14px 26px;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--accent);font-weight:700}
+
+  /* 히어로 오른쪽 — 이미지 / 일러스트 대체박스 */
+  .hero-right{flex:0 0 45%;display:flex;justify-content:center}
+  .mockup{width:380px;height:260px;background:linear-gradient(180deg,#f3f6f8,#eef4f8);border-radius:12px;position:relative;box-shadow:0 10px 30px rgba(20,40,60,0.08);padding:18px}
+  .mockup .toolbar{height:36px;background:var(--accent);border-radius:8px;margin-bottom:10px}
+  .mockup .content{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .mockup .block{background:white;border-radius:8px;height:80px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+
+  /* 하단 스텝 바 */
+  .steps{position:fixed;left:0;right:0;bottom:0;background:var(--accent);color:white;padding:20px 0}
+  .steps .wrap{padding:0 var(--gutter);display:flex;gap:20px}
+  .step{flex:1;padding:18px;border-radius:6px;text-align:left}
+  .step h4{margin:0 0 6px}
+  .step p{margin:0;opacity:0.9}
+
+  /* 반응형 */
+  @media (max-width:900px){
+    h1{font-size:44px}
+    .wrap{flex-direction:column;align-items:flex-start;padding:24px}
+    .hero-right{order:2;width:100%}
+    .hero-left{order:1;width:100%}
+    .mockup{width:100%;height:220px}
+    header{position:static;padding-top:8px}
+    .steps{position:static;margin-top:24px}
+  }
+  </style>
+</head>
+<body>
+  <!-- ====== 상단 네비게이션 (수정: navTexts 에서 텍스트 변경) ====== -->
+  <header>
+    <div class="nav">
+      <div class="brand"><div class="logo"></div><div id="brandName">LOG-O</div></div>
+      <nav>
+        <ul>
+          <li><a href="#">날씨 확인 </a></li>
+          <li><a href="#">농사 직설 </a></li>
+          <li><a href="#">방명록 </a></li>
+          <li><a href="#">위치 확인 </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-left">
+        <div class="kicker" id="kicker">심심하다 </div>
+        <h1 id="mainTitle">뭘쓰긴써야하느<br>Design</h1>
+        <p class="lead" id="subtitle">뭐라써야할까.</p>
+        <div class="cta">
+          <button class="btn" id="primaryBtn">Sign up</button>
+          <button class="btn ghost" id="secondaryBtn">Show more</button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="mockup" role="img" aria-label="illustration">
+          <div class="toolbar"></div>
+          <div class="content">
+            <div class="block">▶</div>
+            <div class="block">Image</div>
+            <div class="block">Code</div>
+            <div class="block">Text</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 하단 스텝 바 (수정: stepsTexts 배열에서 변경) -->
+  <div class="steps">
+    <div class="wrap">
+      <div class="step">
+        <h4 id="step1Title">Step 1</h4>
+        <p id="step1Text">Lorem ipsum dolor sit amet consectetur adipiscing elit</p>
+      </div>
+      <div class="step">
+        <h4 id="step2Title">Step 2</h4>
+        <p id="s후'}
+      ]
+    };
+
+    /* ====== 아래는 자동으로 DOM에 텍스트를 채워주는 코드 - 수정 불필요 ======*/
+    document.getElementById('brandName').textContent = pageText.brandName;
+    document.getElementById('navHome').textContent = pageText.nav.home;
+    document.getElementById('navProfile').textContent = pageText.nav.profile;
+    document.getElementById('navAbout').textContent = pageText.nav.about;
+    document.getElementById('navContacts').textContent = pageText.nav.contacts;
+    document.getElementById('navShop').textContent = pageText.nav.shop;
+    document.getElementById('kicker').textContent = pageText.kicker;
+    // 제목에서 \n 을 <br>로 변환
+    document.getElementById('mainTitle').innerHTML = pageText.title.replace(/\n/g,'<br>');
+    document.getElementById('subtitle').textContent = pageText.subtitle;
+    document.getElementById('primaryBtn').textContent = pageText.primaryBtn;
+    document.getElementById('secondaryBtn').textContent = pageText.secondaryBtn;
+    document.getElementById('step1Title').textContent = pageText.steps[0].title;
+    document.getElementById('step1Text').textContent = pageText.steps[0].text;
+    document.getElementById('step2Title').textContent = pageText.steps[1].title;
+    document.getElementById('step2Text').textContent = pageText.steps[1].text;
+    document.getElementById('step3Title').textContent = pageText.steps[2].title;
+    document.getElementById('step3Text').textContent = pageText.steps[2].text;
+
+    // 버튼 클릭 예시 (필요시 수정)
+    document.getElementById('primaryBtn').addEventListener('click', ()=>{alert('Primary action')});
+  </script>
+</body>
+</html>
+
+
