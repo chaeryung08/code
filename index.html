@@ -6,6 +6,8 @@
     <title> 창원성민여자고등학교 코드 </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <link rel="stylesheet" href="minimap.css">
+    <script src="minimap.js" defer></script>
 </head>
 <body>
     <header>
@@ -13,13 +15,37 @@
             <div class="logo">GreenProject</div>
             <nav>
                 <ul>
-                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li> 
                     <li><a href="#"></a></li>
                     <li><a href="#"></a></li>
                 </ul>
             </nav>
         </div>
-    </header>
+        <!--이거밑애는 미니맵 (조예원, 건드리면죽는다) -->
+        <div id="school-minimap" role="button" aria-label="우리 학교 위치 확인 " tabindex="0">
+            <iframe
+                id="minimap-small"
+                src="<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3257.8946583249613!2d128.6153019!3d35.25887639999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x356f3374bc116409%3A0xeb6e449aaf84ff87!2z7LC97JuQ7ISx66-87Jes7J6Q6rOg65Ox7ZWZ6rWQ!5e0!3m2!1sko!2skr!4v1766122301841!5m2!1sko!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                title="성민 미니맵"
+                frameborder="0"
+                aria-hidden="false"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        
+        <div id="minimap-modal" class="minimap-hidden" role="dialog" aria-modal="true" aria-label="확대된 학교 지도"> 
+            <div class="minimap-modal-backdrop" data-action="close"></div> 
+            <div class="minimap-modal-content" role="document"> 
+              <button class="minimap-close" aria-label="모달 닫기" data-action="close">&times;</button> 
+              <iframe
+                id="minimap-large"
+                src="" 
+                title="확대된 미니맵"
+                frameborder="0"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div> 
+          </div> 
 
     <section class="hero">
         <div class="hero-content">
