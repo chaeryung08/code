@@ -1,108 +1,75 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>창원성민여자고등학교 스타일 포털</title>
-
-  <link rel="stylesheet" href="./style.css">
-
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>창원성민여자고등학교 스타일 포털</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 </head>
 <body>
 
-  <div class="top-accent-bar"></div>
+<div class="top-accent-bar"></div>
 
-  <div class="main-wrapper">
+<div class="main-wrapper">
 
-    <header class="header-section">
-      <h1 class="school-name">창원성민여자고등학교 &gt; 창원</h1>
-      <p class="welcome-text">내가 넣을 부분은 빈칸입니다</p>
-    </header>
+  <header class="header-section">
+    <h1 class="school-name">창원성민여자고등학교 &gt; 창원</h1>
+    <p class="welcome-text">내가 넣을 부분은 빈칸입니다</p>
+  </header>
 
-    <!-- 🔥 카드 그리드 (중요) -->
-    <section class="card-grid">
+  <section class="card-grid">
 
-      <div class="info-card" onclick="location.href='weather.html'">
-        <div class="icon-box skyblue">☀️</div>
-        <h3 class="card-title">날씨 확인</h3>
-        <p class="card-desc">오늘의 날씨 정보</p>
-      </div>
+    <div class="info-card" onclick="location.href='weather.html'">
+      <div class="icon-box skyblue">☀️</div>
+      <h3 class="card-title">날씨 확인</h3>
+      <p class="card-desc">오늘의 날씨 정보</p>
+    </div>
 
-      <div class="info-card" onclick="location.href='agriculture.html'">
-        <div class="icon-box green">🌾</div>
-        <h3 class="card-title">농사 직설</h3>
-        <p class="card-desc">텃밭 관리 정보</p>
-      </div>
+    <div class="info-card" onclick="location.href='agriculture.html'">
+      <div class="icon-box green">🌾</div>
+      <h3 class="card-title">농사 직설</h3>
+      <p class="card-desc">텃밭 관리 정보</p>
+    </div>
 
-      <div class="info-card" onclick="location.href='diary.html'">
-        <div class="icon-box pink">🔖</div>
-        <h3 class="card-title">방명록</h3>
-        <p class="card-desc">자유롭게 남기기</p>
-      </div>
+    <div class="info-card" onclick="location.href='diary.html'">
+      <div class="icon-box pink">🔖</div>
+      <h3 class="card-title">방명록</h3>
+      <p class="card-desc">자유롭게 남기기</p>
+    </div>
 
-      <div class="info-card" onclick="location.href='location.html'">
-        <div class="icon-box blue">🚩</div>
-        <h3 class="card-title">위치 확인</h3>
-        <p class="card-desc">학교 위치 안내</p>
-      </div>
+    <div class="info-card" onclick="location.href='location.html'">
+      <div class="icon-box blue">🚩</div>
+      <h3 class="card-title">위치 확인</h3>
+      <p class="card-desc">학교 위치 안내</p>
+    </div>
 
-    </section>
+  </section>
 
-    <footer class="storyboard-footer">
-      <div class="info-item">
-        <span class="blue-square"></span>
-        <span class="label">Version</span>
-        <span class="value">1.0</span>
-      </div>
-      <div class="info-item">
-        <span class="blue-square"></span>
-        <span class="label">Last Updated</span>
-        <span class="value">2025.12.19</span>
-      </div>
-      <div class="info-item">
-        <span class="blue-square"></span>
-        <span class="label">Organization</span>
-        <span class="value">CODE</span>
-      </div>
-    </footer>
+  <footer class="storyboard-footer">
+    <div class="info-item">
+      <span class="blue-square"></span>
+      <span class="label">Version</span>
+      <span class="value">1.0</span>
+    </div>
+    <div class="info-item">
+      <span class="blue-square"></span>
+      <span class="label">Last Updated</span>
+      <span class="value">2025.12.19</span>
+    </div>
+    <div class="info-item">
+      <span class="blue-square"></span>
+      <span class="label">Organization</span>
+      <span class="value">CODE</span>
+    </div>
+  </footer>
 
-  </div>
-
-</body>
-</html>
+</div>
 
 </body>
 </html>
-</body>
-</html>
-        <!--이거밑애는 미니맵 (조예원, 건드리면죽는다) -->
-        <div id="school-minimap" role="button" aria-label="우리 학교 위치 확인 " tabindex="0">
-            <iframe
-                id="minimap-small"
-                src="<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3257.8946583249613!2d128.6153019!3d35.25887639999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x356f3374bc116409%3A0xeb6e449aaf84ff87!2z7LC97JuQ7ISx66-87Jes7J6Q6rOg65Ox7ZWZ6rWQ!5e0!3m2!1sko!2skr!4v1766122301841!5m2!1sko!2skr" >
-                title="성민 미니맵"
-                frameborder="0"
-                aria-hidden="false"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        
-        <div id="minimap-modal" class="minimap-hidden" role="dialog" aria-modal="true" aria-label="확대된 학교 지도"> 
-            <div class="minimap-modal-backdrop" data-action="close"></div> 
-            <div class="minimap-modal-content" role="document"> 
-              <button class="minimap-close" aria-label="모달 닫기" data-action="close">&times;</button> 
-              <iframe
-                id="minimap-large"
-                src="" 
-                title="확대된 미니맵"
-                frameborder="0"
-                allowfullscreen
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div> 
-          </div> 
+
 
     <section class="hero">
         <div cla
