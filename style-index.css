@@ -1,144 +1,94 @@
-
-
-
-/* 1. 기본 스타일 리셋: 브라우저 기본 여백을 모두 제거하여 디자인을 통일함 */
+/* 1. 전체 초기화 */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* 패딩을 넣어도 박스 전체 크기가 커지지 않게 함 */
+    box-sizing: border-box; /* 패딩 때문에 박스가 옆으로 쏠리는 것 방지 */
 }
 
-/* 전체 폰트 및 배경색 설정 */
 body {
     font-family: 'Pretendard', sans-serif;
-    background-color: #f8fafc; /* 눈이 편안한 밝은 회색/푸른색 배경 */
-    color: #334155; /* 가독성 좋은 짙은 회색 글자 */
-    line-height: 1.7; /* 줄 간격을 넓혀 읽기 편하게 함 */
+    background-color: #f8fafc;
+    text-align: center; /* 기본적으로 모든 텍스트를 가운데로 보냄 */
 }
 
-/* 중앙 정렬용 컨테이너: 너비 90%, 최대 1200px까지만 늘어남 */
+/* 2. 컨테이너: 화면 전체 너비를 쓰지 않고 중앙에 모아줌 */
 .container {
     width: 90%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto; /* 좌우 마진을 자동으로 줘서 중앙에 딱 배치함 */
 }
 
-/* 2. 상단 헤더 디자인 */
-header {
-    background: #ffffff;
-    padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* 아래쪽에 얇은 그림자 효과 */
-    position: sticky; /* 스크롤을 내려도 상단에 붙어있게 함 */
-    top: 0;
-    z-index: 1000;
-}
-
-header .container {
+/* 3. 헤더 정렬 */
+.header-flex {
     display: flex;
-    justify-content: space-between; /* 로고와 메뉴를 양쪽 끝으로 배치 */
+    justify-content: space-between; /* 로고와 메뉴를 양끝으로 벌림 */
     align-items: center;
+    padding: 20px 0;
 }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #2f855a; /* 진한 초록색 포인트 */
-}
-
-nav ul {
+.nav-list {
     display: flex;
-    list-style: none; /* 리스트의 점(dot)을 없앰 */
+    list-style: none;
 }
 
-nav ul li { margin-left: 20px; }
-
-nav ul li a {
-    text-decoration: none;
-    color: #64748b;
-    font-weight: 600;
+.nav-list li {
+    margin-left: 20px;
 }
 
-/* 3. 히어로 섹션: 초록과 파랑의 그라데이션 적용 */
+/* 4. 히어로 섹션: 쏠림 방지의 핵심 */
 .hero {
-    /* 135도 각도로 초록에서 파랑으로 부드럽게 변하는 배경 */
     background: linear-gradient(135deg, #48bb78 0%, #3182ce 100%);
     color: white;
-    padding: 80px 0;
-    text-align: center;
-    border-bottom-left-radius: 80px; /* 너무 딱딱하지 않게 하단 모서리 굴림 */
+    padding: 100px 0;
+    border-bottom-left-radius: 80px;
     border-bottom-right-radius: 80px;
+    
+    /* 내부 요소들이 세로로 쌓이면서 중앙에 오게 함 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
 }
 
-.hero h1 { font-size: 2.5rem; margin-bottom: 15px; }
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가로 방향 중앙 정렬 */
+    text-align: center;  /* 글자 자체 중앙 정렬 */
+}
 
-/* 4. 버튼 그룹 디자인: 요청하신 4개의 버튼 스타일링 */
+/* 5. 버튼 그룹 정렬: 버튼이 왼쪽으로 쏠리지 않게 함 */
 .button-group {
     display: flex;
-    flex-wrap: wrap; /* 화면이 좁아지면 버튼이 아래로 자동 줄바꿈됨 */
-    justify-content: center;
-    gap: 15px; /* 버튼 사이 간격 */
+    flex-wrap: wrap;       /* 화면 좁아지면 줄바꿈 */
+    justify-content: center; /* 버튼들을 가로 가운데로 모음 */
+    gap: 15px;             /* 버튼 사이 간격 */
     margin-top: 30px;
+    width: 100%;           /* 부모 너비를 다 써서 가운데 정렬 기준 마련 */
 }
 
 .nav-btn {
-    padding: 12px 25px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
+    padding: 15px 25px;
     border-radius: 12px;
+    border: none;
+    background: white;
+    font-weight: bold;
     cursor: pointer;
-    background: white; /* 버튼 기본 배경은 하양 */
-    color: #334155;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.2s; /* 마우스 올렸을 때 부드러운 변화 속도 */
+    transition: 0.3s;
 }
 
-/* 마우스 올렸을 때 공통 효과 (위로 살짝 올라감) */
-.nav-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-
-/* 각 버튼별 개별 강조 포인트 (너무 심심하지 않게 색상 부여) */
-.weather:hover { color: #f6ad55; } /* 날씨 - 오렌지 */
-.agritab:hover { color: #48bb78; } /* 농사 - 초록 */
-.diary:hover { color: #ed64a6; }   /* 일기 - 핑크 */
-.map:hover { color: #3182ce; }     /* 위치 - 파랑 */
-
-/* 5. 카드 및 본문 디자인 */
-.section-title { text-align: center; margin: 50px 0 30px; }
-
+/* 6. 본문 카드 정렬 */
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    margin-bottom: 80px;
+    display: flex;         /* 그리드 대신 플렉스로 중앙 제어 */
+    justify-content: center;
+    margin-top: 40px;
 }
 
 .card {
     background: white;
-    padding: 30px;
+    padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-    border-left: 6px solid #48bb78; /* 카드 왼쪽에 초록색 포인트 선 */
-}
-
-/* 뱃지 디자인 (정보/팁 등 구분용) */
-.badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: white;
-}
-.green { background: #48bb78; }
-.blue { background: #3182ce; }
-
-/* 6. 푸터 디자인 */
-footer {
-    padding: 40px 0;
-    text-align: center;
-    color: #94a3b8;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 400px; /* 카드가 너무 넓어지지 않게 제한 */
 }
