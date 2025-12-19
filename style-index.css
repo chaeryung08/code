@@ -1,4 +1,4 @@
-/* 초기화 */
+/* ===== 기본 초기화 ===== */
 * {
   margin: 0;
   padding: 0;
@@ -7,39 +7,45 @@
 
 body {
   font-family: 'Pretendard', sans-serif;
-  background: #eaf1f8;
-  color: #333;
+  background: linear-gradient(180deg, #f8fbff, #eef5ff);
+  color: #2b2e34;
 }
 
-/* 상단 헤더 */
+/* ===== 상단 헤더 ===== */
 .top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 60px;
+  padding: 24px 64px;
 }
 
 .logo {
   font-weight: 800;
-  color: #5b6cff;
+  font-size: 1.2rem;
+  color: #4f7cff;
 }
 
 .top-header nav a {
-  margin-left: 25px;
+  margin-left: 28px;
   text-decoration: none;
   color: #6b7280;
   font-weight: 500;
 }
 
-/* 메인 히어로 */
+.top-header nav a:hover {
+  color: #4f7cff;
+}
+
+/* ===== 히어로 영역 ===== */
 .hero {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 80px 60px;
-  background: #fdf1e6;
-  border-radius: 30px;
+  align-items: center;
   margin: 40px;
+  padding: 90px 70px;
+  background: linear-gradient(135deg, #ffffff, #f3f7ff);
+  border-radius: 36px;
+  box-shadow: 0 25px 60px rgba(79, 124, 255, 0.15);
 }
 
 /* 왼쪽 텍스트 */
@@ -48,46 +54,70 @@ body {
 }
 
 .hero-text h1 {
-  font-size: 3rem;
-  color: #6b7cff;
-  margin-bottom: 10px;
+  font-size: 3.1rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #4f7cff, #6ee7b7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
 }
 
 .hero-text h2 {
   font-size: 1.4rem;
-  margin-bottom: 20px;
+  font-weight: 600;
+  margin-bottom: 22px;
+  color: #374151;
 }
 
 .hero-text p {
-  color: #666;
-  line-height: 1.6;
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.7;
 }
 
-/* 오른쪽 버튼 영역 (큰 그림 느낌) */
+/* ===== 오른쪽 버튼 카드 영역 ===== */
 .hero-visual {
-  background: #ffffff;
-  border-radius: 25px;
-  padding: 40px;
   display: grid;
-  grid-template-columns: repeat(2, 200px);
-  gap: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  grid-template-columns: repeat(2, 210px);
+  gap: 22px;
+  background: #ffffff;
+  padding: 42px;
+  border-radius: 28px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.08);
 }
 
-/* 버튼 디자인 */
+/* 공통 버튼 */
 .hero-visual button {
-  padding: 25px 15px;
-  font-size: 1.1rem;
-  font-weight: 700;
   border: none;
-  border-radius: 18px;
+  border-radius: 20px;
+  padding: 28px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
   cursor: pointer;
-  background: #f3f6ff;
-  transition: 0.3s;
+  color: white;
+  transition: 0.3s ease;
 }
 
-.hero-visual button:hover {
-  transform: translateY(-6px);
-  background: #6b7cff;
-  color: white;
+/* 버튼 개별 컬러 */
+.hero-visual button:nth-child(1) {
+  background: linear-gradient(135deg, #60a5fa, #38bdf8); /* 날씨 */
 }
+
+.hero-visual button:nth-child(2) {
+  background: linear-gradient(135deg, #34d399, #22c55e); /* 농사 */
+}
+
+.hero-visual button:nth-child(3) {
+  background: linear-gradient(135deg, #f472b6, #ec4899); /* 방명록 */
+}
+
+.hero-visual button:nth-child(4) {
+  background: linear-gradient(135deg, #fb7185, #f97316); /* 위치 */
+}
+
+/* 호버 효과 */
+.hero-visual button:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.2);
+}
+
