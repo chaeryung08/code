@@ -1,129 +1,136 @@
-/* 1. 기본 초기화 */
+/* 전체 설정 */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* 패딩이 박스 크기를 망치지 않게 설정 */
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Pretendard', sans-serif;
-    background-color: #f2f6f9; /* 연한 파란빛이 도는 깔끔한 배경 */
+    background-color: #f5f8ff; /* 세 번째 이미지의 연한 블루/아이보리 톤 */
     color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 전체 요소를 가로 중앙 정렬 */
-    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* 2. 상단 포인트 바 */
-.top-line {
+/* 상단 포인트 바 (이미지 1번 스타일) */
+.top-nav-bar {
     width: 100%;
-    height: 8px;
-    background-color: #4ea1ff; /* 이미지 상단의 하늘색 포인트 */
+    height: 10px;
+    background: linear-gradient(to right, #4da3ff, #1a73e8);
 }
 
-/* 3. 레이아웃 감싸는 박스 */
-.main-wrapper {
-    width: 90%;
+.container {
     max-width: 1200px;
-    padding: 80px 0;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+/* 헤더 텍스트 디자인 */
+.main-title-section {
     text-align: center;
-}
-
-/* 4. 헤더 제목 디자인 */
-.brand-title {
-    color: #1a73e8; /* 이미지에 있는 선명한 파란색 */
-    font-size: 2.6rem;
-    font-weight: 800;
-    margin-bottom: 15px;
-}
-
-.brand-sub {
-    color: #666;
-    font-size: 1.1rem;
     margin-bottom: 70px;
 }
 
-/* 5. 카드 그리드 레이아웃 (이미지 속 4개 카드 배치) */
+.school-name {
+    color: #1a73e8;
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.sub-welcome {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* [핵심] 큼지막한 카드 그리드 레이아웃 */
 .card-grid {
     display: grid;
-    /* 화면 크기에 따라 1열~4열 자동 조절 */
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 30px;
     margin-bottom: 100px;
 }
 
-/* 6. 개별 카드 디자인: 이미지를 정밀 분석한 스타일 */
-.menu-card {
+/* 개별 카드 디자인 (이미지 2번 스타일 반영) */
+.feature-card {
     background: #ffffff;
-    padding: 55px 25px;
-    border-radius: 25px; /* 아주 부드럽게 굴린 모서리 */
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04); /* 은은한 명품 그림자 */
+    padding: 50px 30px;
+    border-radius: 24px;
+    text-align: center;
     cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); /* 호버 시 부드러운 움직임 */
-    border: 1px solid rgba(0,0,0,0.01);
+    /* 이미지 2번의 아주 부드러운 그림자 효과 */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(26, 115, 232, 0.05);
 }
 
-/* 카드 호버 효과: 이미지처럼 위로 슥 올라가는 입체감 */
-.menu-card:hover {
-    transform: translateY(-15px); /* 위로 상승 */
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08); /* 그림자가 더 깊어짐 */
+/* 카드 호버 시 애니메이션 */
+.feature-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 25px 50px rgba(26, 115, 232, 0.15);
+    border-color: #1a73e8;
 }
 
-.icon-box {
-    font-size: 3.8rem; /* 아이콘 크기 */
-    margin-bottom: 25px;
+/* 카드 내 아이콘 배경 (이미지 3번 컬러감 활용) */
+.icon-wrap {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
 }
 
-.card-name {
-    color: #1a73e8;
+/* 각 카드별 포인트 컬러 */
+.red-bg { background-color: #fff1f1; color: #ff5252; }
+.pink-bg { background-color: #fff0f6; color: #f06595; }
+.green-bg { background-color: #f1fff5; color: #40c057; }
+.yellow-bg { background-color: #fff9db; color: #fab005; }
+
+.card-label {
     font-size: 1.6rem;
+    color: #1a73e8;
     font-weight: 700;
     margin-bottom: 15px;
 }
 
-.card-info {
-    color: #888;
+.card-text {
+    color: #777;
     font-size: 1rem;
     line-height: 1.5;
     word-break: keep-all;
 }
 
-/* 7. 하단 정보 영역 (스토리보드 느낌) */
-.footer-info {
+/* 하단 스토리보드 스타일 푸터 */
+.info-footer {
+    border-top: 1px solid #ddd;
+    padding-top: 30px;
+}
+
+.status-box {
     display: flex;
     flex-direction: column;
     align-items: flex-end; /* 오른쪽 정렬 */
-    gap: 12px;
-    border-top: 1px solid #e0e5ea;
-    padding-top: 40px;
+    gap: 10px;
 }
 
-.info-row {
-    display: flex;
-    align-items: center;
-    width: 320px;
-}
-
-.blue-square {
-    width: 14px;
-    height: 14px;
-    background-color: #4ea1ff; /* 포인트 하늘색 네모 */
-    margin-right: 15px;
-}
-
-.label {
+.status-item {
+    font-size: 0.9rem;
     color: #999;
     font-weight: 600;
-    width: 110px;
-    text-align: left;
-    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
 }
 
-.value {
-    color: #444;
-    font-weight: 700;
-    flex: 1;
-    text-align: right;
-    font-size: 0.9rem;
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #1a73e8;
+    margin-right: 10px;
+    border-radius: 2px;
 }
