@@ -1,168 +1,126 @@
-/* 1. 기본 스타일 리셋: 쏠림 방지를 위해 기본 여백 0 설정 */
+/* 1. 기본 초기화 */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* 패딩이 박스 크기를 망치지 않게 설정 */
 }
 
 body {
     font-family: 'Pretendard', sans-serif;
-    background-color: #f2f6f9; /* 이미지처럼 아주 연한 파란빛 배경 */
+    background-color: #f2f6f9; /* 연한 파란빛이 도는 깔끔한 배경 */
     color: #333;
-    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 전체 요소를 가로 중앙 정렬 */
+    min-height: 100vh;
 }
 
-/* 2. 중앙 정렬용 컨테이너 */
-.container {
-    width: 90%;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-/* 3. 상단 포인트 바 */
-.top-accent-line {
+/* 2. 상단 포인트 바 */
+.top-line {
     width: 100%;
-    height: 6px;
-    background-color: #4ea1ff; /* 이미지 상단 하늘색 */
+    height: 8px;
+    background-color: #4ea1ff; /* 이미지 상단의 하늘색 포인트 */
 }
 
-/* 4. 헤더 디자인 */
-header {
-    background: #fff;
-    padding: 20px 0;
-    border-bottom: 1px solid #eef2f6;
+/* 3. 레이아웃 감싸는 박스 */
+.main-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    padding: 80px 0;
+    text-align: center;
 }
 
-.header-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
+/* 4. 헤더 제목 디자인 */
+.brand-title {
+    color: #1a73e8; /* 이미지에 있는 선명한 파란색 */
+    font-size: 2.6rem;
     font-weight: 800;
-    color: #1a73e8; /* 학교 로고 색상 */
-    font-size: 1.1rem;
-    letter-spacing: -0.5px;
+    margin-bottom: 15px;
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-}
-
-nav ul li { margin-left: 25px; }
-
-nav ul li a {
-    text-decoration: none;
+.brand-sub {
     color: #666;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: 0.2s;
-}
-
-nav ul li a:hover { color: #1a73e8; }
-
-/* 5. 히어로 섹션 (중앙 텍스트 구역) */
-.hero {
-    padding: 80px 0 60px;
-    text-align: center;
-}
-
-.hero-title {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #1a73e8; /* 이미지처럼 선명한 파란색 */
-    margin-bottom: 10px;
-}
-
-.hero-sub {
     font-size: 1.1rem;
-    color: #5f6368;
-    font-weight: 400;
+    margin-bottom: 70px;
 }
 
-/* 6. 카드 섹션 (이미지 속 4개 카드 디자인) */
-.card-section {
+/* 5. 카드 그리드 레이아웃 (이미지 속 4개 카드 배치) */
+.card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-    margin-bottom: 80px;
+    /* 화면 크기에 따라 1열~4열 자동 조절 */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    margin-bottom: 100px;
 }
 
-.nav-card {
+/* 6. 개별 카드 디자인: 이미지를 정밀 분석한 스타일 */
+.menu-card {
     background: #ffffff;
-    padding: 45px 20px;
-    border-radius: 20px; /* 부드러운 모서리 */
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); /* 아주 은은한 그림자 */
+    padding: 55px 25px;
+    border-radius: 25px; /* 아주 부드럽게 굴린 모서리 */
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04); /* 은은한 명품 그림자 */
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); /* 호버 시 부드러운 움직임 */
     border: 1px solid rgba(0,0,0,0.01);
 }
 
-/* 호버 시 이미지처럼 입체감 있게 올라오는 효과 */
-.nav-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+/* 카드 호버 효과: 이미지처럼 위로 슥 올라가는 입체감 */
+.menu-card:hover {
+    transform: translateY(-15px); /* 위로 상승 */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08); /* 그림자가 더 깊어짐 */
 }
 
-.icon-img {
-    font-size: 3.2rem;
+.icon-box {
+    font-size: 3.8rem; /* 아이콘 크기 */
     margin-bottom: 25px;
 }
 
 .card-name {
     color: #1a73e8;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .card-info {
-    color: #777;
-    font-size: 0.9rem;
-    word-break: keep-all; /* 한글 줄바꿈 예쁘게 */
+    color: #888;
+    font-size: 1rem;
+    line-height: 1.5;
+    word-break: keep-all;
 }
 
-/* 7. 푸터 디자인 (스토리보드 스타일) */
-footer {
-    padding: 60px 0;
-    border-top: 1px solid #e0e5ea;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: flex-end; /* 오른쪽으로 밀어넣기 */
-}
-
-.story-info {
+/* 7. 하단 정보 영역 (스토리보드 느낌) */
+.footer-info {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: flex-end; /* 오른쪽 정렬 */
+    gap: 12px;
+    border-top: 1px solid #e0e5ea;
+    padding-top: 40px;
 }
 
-.info-line {
+.info-row {
     display: flex;
     align-items: center;
-    width: 300px;
+    width: 320px;
 }
 
-.blue-dot {
-    width: 10px;
-    height: 10px;
-    background-color: #4ea1ff;
+.blue-square {
+    width: 14px;
+    height: 14px;
+    background-color: #4ea1ff; /* 포인트 하늘색 네모 */
     margin-right: 15px;
 }
 
-.info-label {
-    color: #888;
+.label {
+    color: #999;
     font-weight: 600;
-    width: 100px;
+    width: 110px;
+    text-align: left;
     font-size: 0.9rem;
 }
 
-.info-value {
+.value {
     color: #444;
     font-weight: 700;
     flex: 1;
