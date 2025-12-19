@@ -2,97 +2,119 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* 패딩 넣어도 박스 안 찌그러지게 */
 }
 
 body {
     font-family: 'Pretendard', sans-serif;
-    background-color: #f2f4f7; /* 이미지와 같은 연한 회색 배경 */
-    color: #333;
+    background-color: #f0f4f9; /* 이미지처럼 아주 연한 파란빛 도는 배경 */
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh; /* 화면 전체 높이 사용 */
-    overflow: hidden;
+    min-height: 100vh;
 }
 
-/* 2. 전체 레이아웃 (이미지의 구성 반영) */
+/* 2. 상단 포인트 바 */
+.top-accent-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #5da8ff; /* 이미지 상단의 선명한 하늘색 */
+}
+
+/* 3. 메인 감싸는 박스 */
 .main-wrapper {
-    width: 85%;
+    width: 90%;
     max-width: 1200px;
-    display: flex; /* 왼쪽 제목과 오른쪽 버튼을 나란히 배치 */
-    justify-content: space-between; /* 양쪽 끝으로 벌림 */
-    align-items: center;
+    padding: 60px 0;
+    text-align: center;
 }
 
-/* 3. 왼쪽 제목 구역 */
-.left-content {
-    flex: 1; /* 왼쪽 공간 차지 */
-}
-
-.main-title {
-    font-size: 5rem; /* 아주 큰 글씨 */
+/* 4. 헤더 텍스트 디자인 */
+.school-name {
+    color: #1a73e8; /* 이미지에 있는 진한 파란색 제목 */
+    font-size: 2.2rem;
     font-weight: 800;
-    line-height: 1;
     margin-bottom: 10px;
 }
 
-.sub-title {
-    font-size: 4rem;
-    font-weight: 400;
-    color: #5da8ff; /* 이미지의 Story Board와 같은 파란색 */
+.welcome-text {
+    color: #5f6368;
+    font-size: 1.1rem;
+    margin-bottom: 50px;
 }
 
-/* 4. 오른쪽 버튼 구역 */
-.right-content {
-    flex: 1;
+/* 5. 카드 그리드 레이아웃 (두 번째 이미지 스타일) */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 화면 작아지면 자동으로 밑으로 내려감 */
+    gap: 25px;
+    margin-bottom: 60px;
+}
+
+/* 개별 카드 디자인 */
+.info-card {
+    background: white;
+    padding: 40px 20px;
+    border-radius: 20px; /* 아주 부드러운 모서리 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* 은은하고 고급진 그림자 */
+    cursor: pointer;
+    transition: 0.3s ease; /* 호버 시 부드럽게 움직임 */
+}
+
+.info-card:hover {
+    transform: translateY(-10px); /* 마우스 올리면 위로 슥 올라감 */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.icon-box {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    color: #1a73e8;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.card-desc {
+    color: #70757a;
+    font-size: 0.95rem;
+}
+
+/* 6. 하단 스토리보드 정보 (첫 번째 이미지 오른쪽 스타일) */
+.storyboard-footer {
     display: flex;
-    justify-content: flex-end; /* 버튼들을 오른쪽 끝으로 밀어넣음 */
+    flex-direction: column;
+    align-items: flex-end; /* 오른쪽 정렬 */
+    gap: 10px;
+    border-top: 1px solid #ddd;
+    padding-top: 30px;
 }
 
-.button-list {
-    display: flex;
-    flex-direction: column; /* 버튼들을 세로로 나열 */
-    gap: 20px; /* 버튼 사이 간격 */
-}
-
-.btn-item {
+.info-item {
     display: flex;
     align-items: center;
-    gap: 15px;
+    width: 250px; /* 정렬 맞추기 위해 너비 고정 */
 }
 
-/* 이미지의 작은 파란색 네모 포인트 */
-.point-box {
-    width: 15px;
-    height: 15px;
-    background-color: #5da8ff;
-    display: inline-block;
+.blue-square {
+    width: 12px;
+    height: 12px;
+    background-color: #5da8ff; /* 포인트 하늘색 사각형 */
+    margin-right: 15px;
 }
 
-/* 버튼 스타일: 깔끔하게 텍스트 위주로 디자인 */
-.btn-item button {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
+.label {
+    color: #666;
     font-weight: 600;
-    color: #444;
-    cursor: pointer;
+    width: 120px;
     text-align: left;
-    transition: 0.2s;
 }
 
-.btn-item button:hover {
-    color: #5da8ff; /* 마우스 올리면 파란색으로 변경 */
-    transform: translateX(5px); /* 옆으로 살짝 움직이는 효과 */
-}
-
-/* 5. 하단 로고 */
-.bottom-logo {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-weight: bold;
-    color: #999;
+.value {
+    color: #333;
+    font-weight: 800;
+    text-align: right;
+    flex: 1;
 }
