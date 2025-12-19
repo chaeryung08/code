@@ -1,120 +1,125 @@
 /* 1. 기본 초기화 */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* 패딩 넣어도 박스 안 찌그러지게 */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Pretendard', sans-serif;
-    background-color: #f0f4f9; /* 이미지처럼 아주 연한 파란빛 도는 배경 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+  font-family: 'Pretendard', sans-serif;
+  background-color: #f0f4f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
 /* 2. 상단 포인트 바 */
 .top-accent-bar {
-    width: 100%;
-    height: 8px;
-    background-color: #5da8ff; /* 이미지 상단의 선명한 하늘색 */
+  width: 100%;
+  height: 8px;
+  background-color: #5da8ff;
 }
 
-/* 3. 메인 감싸는 박스 */
+/* 3. 메인 래퍼 */
 .main-wrapper {
-    width: 90%;
-    max-width: 1200px;
-    padding: 60px 0;
-    text-align: center;
+  width: 90%;
+  max-width: 1200px;
+  padding: 60px 0;
+  text-align: center;
 }
 
-/* 4. 헤더 텍스트 디자인 */
+/* 4. 헤더 */
 .school-name {
-    color: #1a73e8; /* 이미지에 있는 진한 파란색 제목 */
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-bottom: 10px;
+  color: #1a73e8;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
 }
 
 .welcome-text {
-    color: #5f6368;
-    font-size: 1.1rem;
-    margin-bottom: 50px;
+  color: #5f6368;
+  font-size: 1.1rem;
+  margin-bottom: 50px;
 }
 
-/* 5. 카드 그리드 레이아웃 (두 번째 이미지 스타일) */
+/* 5. 카드 그리드 */
 .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 화면 작아지면 자동으로 밑으로 내려감 */
-    gap: 25px;
-    margin-bottom: 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-bottom: 60px;
 }
 
-/* 개별 카드 디자인 */
 .info-card {
-    background: white;
-    padding: 40px 20px;
-    border-radius: 20px; /* 아주 부드러운 모서리 */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* 은은하고 고급진 그림자 */
-    cursor: pointer;
-    transition: 0.3s ease; /* 호버 시 부드럽게 움직임 */
+  background: white;
+  padding: 40px 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .info-card:hover {
-    transform: translateY(-10px); /* 마우스 올리면 위로 슥 올라감 */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
 }
 
 .icon-box {
-    font-size: 3rem;
-    margin-bottom: 20px;
+  font-size: 3rem;
+  margin-bottom: 20px;
 }
 
 .card-title {
-    color: #1a73e8;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+  color: #1a73e8;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 }
 
 .card-desc {
-    color: #70757a;
-    font-size: 0.95rem;
+  color: #70757a;
+  font-size: 0.95rem;
 }
 
-/* 6. 하단 스토리보드 정보 (첫 번째 이미지 오른쪽 스타일) */
+/* 아이콘 색상 */
+.skyblue { color: #5da8ff; }
+.green   { color: #34a853; }
+.pink    { color: #ec4899; }
+.blue    { color: #2563eb; }
+
+/* 6. 푸터 */
 .storyboard-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* 오른쪽 정렬 */
-    gap: 10px;
-    border-top: 1px solid #ddd;
-    padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 30px;
 }
 
 .info-item {
-    display: flex;
-    align-items: center;
-    width: 250px; /* 정렬 맞추기 위해 너비 고정 */
+  display: flex;
+  align-items: center;
+  width: 250px;
 }
 
 .blue-square {
-    width: 12px;
-    height: 12px;
-    background-color: #5da8ff; /* 포인트 하늘색 사각형 */
-    margin-right: 15px;
+  width: 12px;
+  height: 12px;
+  background-color: #5da8ff;
+  margin-right: 15px;
 }
 
 .label {
-    color: #666;
-    font-weight: 600;
-    width: 120px;
-    text-align: left;
+  color: #666;
+  font-weight: 600;
+  width: 120px;
+  text-align: left;
 }
 
 .value {
-    color: #333;
-    font-weight: 800;
-    text-align: right;
-    flex: 1;
+  color: #333;
+  font-weight: 800;
+  text-align: right;
+  flex: 1;
 }
