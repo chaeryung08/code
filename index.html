@@ -1,51 +1,58 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>스토리보드 스타일 웹사이트</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>창원성민여자고등학교 스타일 포털</title>
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 </head>
 <body>
 
+    <div class="top-accent-bar"></div>
+
     <div class="main-wrapper">
         
-        <div class="left-content">
-            <h1 class="main-title">Website Design</h1>
-            <h2 class="sub-title">내가 넣을 부분은 빈칸입니다</h2>
-        </div>
+        <header class="header-section">
+            <h1 class="school-name">창원성민여자고등학교>창원>> <p class="welcome-text">내가 넣을 부분은 빈칸입니다</p> </header>
 
-        <div class="right-content">
-            <div class="button-list">
-                <div class="btn-item">
-                    <span class="point-box"></span>
-                    <button onclick="location.href='weather.html'">날씨 확인 ☀️</button>
-                </div>
-                
-                <div class="btn-item">
-                    <span class="point-box"></span>
-                    <button onclick="location.href='agriculture.html'">농사 직설 🌾</button>
-                </div>
-
-                <div class="btn-item">
-                    <span class="point-box"></span>
-                    <button onclick="location.href='diary.html'">방명록 🔖</button>
-                </div>
-
-                <div class="btn-item">
-                    <span class="point-box"></span>
-                    <button onclick="location.href='location.html'">위치 확인 🚩</button>
-                </div>
+        <section class="card-grid">
+            
+            <div class="info-card" onclick="location.href='weather.html'">
+                <div class="icon-box skyblue">☀️</div> <h3 class="card-title">날씨 확인</h3>쩅쩅                <p class="card-desc">pp
             </div>
-        </div>
 
+            <div class="info-card" onclick="location.href='agriculture.html'">
+                <div class="icon-box green">🌾</div> <h3 class="card-title">농사 직설</h3>휭휭휭                <p class="card-desc">pp
+            </div>
+
+            <div class="info-card" onclick="location.href='diary.html'">
+                <div class="icon-box pink">🔖</div> <h3 class="card-title">방명록</h3>듀듀듀뱌뱌뱌뱌                <p class="card-desc">pp
+            </div>
+
+            <div class="info-card" onclick="location.href='location.html'">
+                <div class="icon-box blue">🚩</div> <h3 class="card-title">위치 확인</h3>ㄸㅟ뛰뛰                <p class="card-desc">pp
+            </div>
+
+        </section>
+
+        <footer class="storyboard-footer">
+            <div class="info-item">
+                <span class="blue-square"></span> <span class="label">Version</span>
+                <span class="value">1.0</span>
+            </div>
+            <div class="info-item">
+                <span class="blue-square"></span>
+                <span class="label">Last Updated</span>
+                <span class="value">2025.12.19</span>
+            </div>
+            <div class="info-item">
+                <span class="blue-square"></span>
+                <span class="label">Organization</span>
+                <span class="value">CODE</span>
+            </div>
+        </footer>
     </div>
 
-    <div class="bottom-logo">
-        <p>내가 넣을 부분은 빈칸입니다</p>
-    </div>
-
+</body>
+</html>
 </body>
 </html>
         <!--이거밑애는 미니맵 (조예원, 건드리면죽는다) -->
@@ -76,23 +83,4 @@
           </div> 
 
     <section class="hero">
-        <div class="hero-content">
-            <h1>창원성민여자고등학교</h1>
-            <p>꼬마텃밭ㅋㅋ</p>
-            
-            <div class="button-group">
-                <button class="nav-btn weather" onclick="location.href='weather.html'">날씨 확인 ☀️</button>
-                <button class="nav-btn agritab" onclick="location.href='agriculture.html'">농사 직설 🌾</button>
-                <button class="nav-btn diary" onclick="location.href='diary.html'">방명록 🔖</button>
-                <button class="nav-btn map" onclick="location.href='location.html'">위치 확인 🚩</button>
-            </div>
-        </div>
-    </section>
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 GreenProject. .</p>
-        </div>
-    </footer>
-
-</body>
-</html>
+        <div cla
