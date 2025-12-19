@@ -1,0 +1,26 @@
+<!doctype html> 
+<html lang="ko"> 
+<head> 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>미니맵 예제</title> 
+  <link rel="stylesheet" href="minimap.css">
+</head>
+<body> 
+  <main>
+    <h1>학교 페이지 </h1> 
+    <p>우리 학교 위치.</p> 
+  </main>
+
+
+  <div id="school-minimap" role="region" aria-label="학교 미니맵">
+    <a href="https://maps.app.goo.gl/yQoxAW6QDTBKXd977" target="_blank" rel="noopener noreferrer" title="큰 지도 보기">
+      <!-- 이미지 방식: 로컬 파일(예: minimap.png) 또는 원격 URL을 사용하세요.-->
+      <img src="minimap.png" alt="학교 건물 및 주요 출입구가 표시된 미니맵" id="minimap-image">
+    </a>
+    <div class="minimap-pin" aria-hidden="true"></div>
+  </div>
+
+  <!--스크립트 필요 시 여기에 추가 -->
+</body>
+</html>
