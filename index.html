@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 성민여고 텃밭 사이트</title>
-    <link rel="stylesheet" href="style-index.css""
+    <title>성민여고 텃밭 포털</title>
+    <link rel="stylesheet" href="style-index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 </head>
 <body>
 
+    <div class="top-accent-line"></div>
+
     <header>
-        <div class="container">
+        <div class="container header-inner">
             <div class="logo">ChangwonSungminWomanschool</div> 
-            
             <nav>
                 <ul>
                     <li><a href="#">홈</a></li>
@@ -25,44 +26,52 @@
     </header>
 
     <section class="hero">
-        <div class="hero-content">
-            <h1>내가 넣을 부분은 빈칸입니다</h1>
-            
-            <p>내가 넣을 부분은 빈칸입니다</p>
-            
-            <button class="btn-main">시작하기</button>
+        <div class="container">
+            <h1 class="hero-title">내가 넣을 부분은 빈칸입니다</h1>
+            <p class="hero-sub">내가 넣을 부분은 빈칸입니다</p>
         </div>
     </section>
 
     <main class="container">
-        <section class="content-box">
-            <h2 class="section-title">내가 넣을 부분은 빈칸입니다</h2>
+        <section class="card-section">
             
-            <div class="grid-container">
-                <div class="card">
-                    <div class="icon-circle">01</div>
-                    <h3>내가 넣을 부분은 빈칸입니다</h3>
-                    <p>내가 넣을 부분은 빈칸입니다</p>
-                </div>
+            <div class="nav-card" onclick="location.href='location.html'">
+                <div class="icon-img">🚩</div> <h3 class="card-name">위치 확인</h3> <p class="card-info">내가 넣을 부분은 빈칸입니다</p> </div>
 
-                <div class="card">
-                    <div class="icon-circle">02</div>
-                    <h3>내가 넣을 부분은 빈칸입니다</h3>
-                    <p>내가 넣을 부분은 빈칸입니다</p>
-                </div>
-
-                <div class="card">
-                    <div class="icon-circle">03</div>
-                    <h3>내가 넣을 부분은 빈칸입니다</h3>
-                    <p>내가 넣을 부분은 빈칸입니다</p>
-                </div>
+            <div class="nav-card" onclick="location.href='diary.html'">
+                <div class="icon-img">🔖</div>
+                <h3 class="card-name">방명록</h3>
+                <p class="card-info">내가 넣을 부분은 빈칸입니다</p>
             </div>
+
+            <div class="nav-card" onclick="location.href='agriculture.html'">
+                <div class="icon-img">🌾</div>
+                <h3 class="card-name">농사 직설</h3>
+                <p class="card-info">내가 넣을 부분은 빈칸입니다</p>
+            </div>
+
+            <div class="nav-card" onclick="location.href='weather.html'">
+                <div class="icon-img">☀️</div>
+                <h3 class="card-name">날씨 확인</h3>
+                <p class="card-info">내가 넣을 부분은 빈칸입니다</p>
+            </div>
+
         </section>
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2025 MyBrand. 내가 넣을 부분은 빈칸입니다.</p>
+        <div class="container footer-content">
+            <div class="story-info">
+                <div class="info-line">
+                    <span class="blue-dot"></span> <span class="info-label">Organization</span>
+                    <span class="info-value">성민여고 텃밭 프로젝트</span>
+                </div>
+                <div class="info-line">
+                    <span class="blue-dot"></span>
+                    <span class="info-label">Copyright</span>
+                    <span class="info-value">2025 MyBrand. 내가 넣을 부분은 빈칸입니다.</span>
+                </div>
+            </div>
         </div>
     </footer>
 
